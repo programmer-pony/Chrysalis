@@ -1,0 +1,104 @@
+{
+  "modules": [
+    {
+      "name": "logs",
+      "enabled": false,
+      "channel": ""
+    },
+    {
+      "name": "bannedwords",
+      "enabled": true,
+      "words": []
+    },
+    {
+      "name": "nitro",
+      "enabled": false,
+      "channel": ""
+    },
+    {
+      "name": "suggestions",
+      "enabled": false,
+      "channel": ""
+    },
+    {
+      "name": "help",
+      "enabled": true,
+      "restricted": false,
+      "allowedChannels": []
+    },
+    {
+      "name": "userinfo",
+      "enabled": true,
+      "restricted": false,
+      "allowedChannels": []
+    },
+    {
+      "name": "roleinfo",
+      "enabled": true,
+      "restricted": false,
+      "allowedChannels": []
+    },
+    {
+      "name": "serverinfo",
+      "enabled": true,
+      "restricted": false,
+      "allowedChannels": []
+    },
+    {
+      "name": "love",
+      "enabled": true,
+      "restricted": false,
+      "allowedChannels": []
+    },
+    {
+      "name": "manebooru",
+      "enabled": true,
+      "restricted": false,
+      "allowedChannels": [],
+      "filter": 229
+    },
+    {
+      "name": "reddit",
+      "enabled": true,
+      "restricted": false,
+      "allowedChannels": []
+    },
+    {
+      "name": "jumbo",
+      "enabled": true,
+      "restricted": false,
+      "allowedChannels": []
+    },
+    {
+      "name": "boop",
+      "enabled": true,
+      "restricted": false,
+      "allowedChannels": []
+    },
+    {
+      "name": "hug",
+      "enabled": true,
+      "restricted": false,
+      "allowedChannels": []
+    },
+    {
+      "name": "welcome",
+      "enabled": false,
+      "channel": "",
+      "background": "",
+      "message": "default"
+    },
+    {
+      "name": "goodbye",
+      "enabled": false,
+      "channel": "",
+      "message": "default"
+    },
+    {
+      "name": "mlp",
+      "enabled": true,
+      "restricted": false,
+      "allowedChannels": []
+    }
+  ]
+}

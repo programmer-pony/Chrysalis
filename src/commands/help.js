@@ -78,15 +78,15 @@ module.exports = {
       let currentPage = 0;
       collector.on('collect', (i) => {
         if (i.customId == 'left') {
-          currentPage--;
+          if (currentPage > 0) currentPage--;
           leftButton.setDisabled(currentPage == 0);
           rightButton.setDisabled(false);
         } else {
-          currentPage++;
+          if (currentPage < helpEmbed.length - 1) currentPage++;
           rightButton.setDisabled(currentPage == helpEmbed.length - 1);
           leftButton.setDisabled(false);
         }
-        sentEmbed.edit({embeds:[helpEmbed[currentPage]], components: [new MessageActionRow().addComponents([leftButton, rightButton])]});
+        sentEmbed.edit({embeds:[helpEmbed[currentPage]], components: [new MessageActionRow().addComponents([leftButton, rightButton])]}).then(i.deferUpdate());
       });
       collector.on('end', (collected, reason) => {
         if (reason == 'time') {
@@ -124,15 +124,15 @@ module.exports = {
       let currentPage = 0;
       collector.on('collect', (i) => {
         if (i.customId == 'left') {
-          currentPage--;
+          if (currentPage > 0) currentPage--;
           leftButton.setDisabled(currentPage == 0);
           rightButton.setDisabled(false);
         } else {
-          currentPage++;
+          if (currentPage < adminHelpEmbed.length - 1) currentPage++;
           rightButton.setDisabled(currentPage == adminHelpEmbed.length - 1);
           leftButton.setDisabled(false);
         }
-        sentEmbed.edit({embeds:[adminHelpEmbed[currentPage]], components: [new MessageActionRow().addComponents([leftButton, rightButton])]});
+        sentEmbed.edit({embeds:[adminHelpEmbed[currentPage]], components: [new MessageActionRow().addComponents([leftButton, rightButton])]}).then(i.deferUpdate());
       });
       collector.on('end', (collected, reason) => {
         if (reason == 'time') {

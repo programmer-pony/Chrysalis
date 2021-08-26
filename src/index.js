@@ -194,9 +194,9 @@ client.on('guildMemberUpdate', (oldMember, newMember) => {
 client.on('interactionCreate', async (i) => {
 	if (!i.isButton()) return;
 	if (i.guild == null) return i.deferUpdate();
+	if (!i.customId.startsWith("role-")) return;
 	if (!i.guild.me.permissions.has('MANAGE_ROLES')) return;
 	i.deferUpdate();
-	if (!i.customId.startsWith("role-")) return;
 	let roleID = i.customId.replace("role-", "");
 	if (!i.member) i.member = await i.guild.members.fetch(i.user.id);
 	await i.member.fetch(true);

@@ -64,15 +64,15 @@ module.exports = {
     var currentPage = 1;
     collector.on('collect', (i) => {
       if (i.customId == 'left') {
-        currentPage--;
+        if (currentPage > 0) currentPage--;
         leftButton.setDisabled(currentPage == 1);
         rightButton.setDisabled(false);
       } else {
-        currentPage++;
+        if (currentPage < seasonEmbed.length - 1) currentPage++;
         rightButton.setDisabled(currentPage == seasonEmbed.length - 1);
         leftButton.setDisabled(false);
       }
-      sentEmbed.edit({embeds:[seasonEmbed[currentPage]], components: [new MessageActionRow().addComponents([leftButton, rightButton])]});
+      sentEmbed.edit({embeds:[seasonEmbed[currentPage]], components: [new MessageActionRow().addComponents([leftButton, rightButton])]}).then(i.deferUpdate());
     });
     collector.on('end', (collected, reason) => {
       if (reason == 'time') {

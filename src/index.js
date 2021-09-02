@@ -1,5 +1,3 @@
-if(!process.version.startsWith('v16.6')) console.log(colors.red('YOU NEED NODE.JS VERSION 16.6 OR HIGHER TO RUN THIS BOT'));
-
 const { Client, Intents, Collection, MessageEmbed, MessageButton, MessageActionRow, MessageAttachment } = require('discord.js');
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS, Intents.FLAGS.GUILD_PRESENCES, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.DIRECT_MESSAGES] });
 const colors = require('colors');

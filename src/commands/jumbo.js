@@ -8,7 +8,7 @@ module.exports = {
   run: async (client, message, command, args, prefix, color, langstr) => {
 
     lang = require(`../lang/${langstr}.json`);
-    message.channel.sendTyping();
+    await message.channel.sendTyping();
 
     if (!args[0] || args[0].split(':')[1] == null) return message.reply(lang.you_must_send_an_emoji);
 

@@ -5,10 +5,10 @@ module.exports = {
   name: "userinfo",
   alias: ["user-info","avatar"],
   admin: false,
-  run: (client, message, command, args, prefix, color, langstr) => {
+  run: async (client, message, command, args, prefix, color, langstr) => {
 
     lang = require(`../lang/${langstr}.json`);
-    message.channel.sendTyping();
+    await await message.channel.sendTyping();
 
     var taggedUser = args[0];
     if (message.mentions.members.first()) {

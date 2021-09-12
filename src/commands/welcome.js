@@ -48,7 +48,7 @@ module.exports = {
       bgURL = '';
     } else bgURL = welcome.background;
     db.close();
-    message.channel.sendTyping();
+    await message.channel.sendTyping();
 
     // Create canvas
     const canvas = Canvas.createCanvas(960,540);

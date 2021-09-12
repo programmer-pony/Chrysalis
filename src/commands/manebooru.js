@@ -28,7 +28,7 @@ module.exports = {
 }
 
 async function getBooru(client, query, message, color, numberOfPages) {
-  message.channel.sendTyping();
+  await message.channel.sendTyping();
   if (numberOfPages > 1) randomPage = Math.floor(Math.random() * numberOfPages)+1;
   else randomPage = 1;
   try {

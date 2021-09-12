@@ -8,7 +8,7 @@ module.exports = {
   name: "reddit",
   alias: ["yiff","furry","meme"],
   admin: false,
-  run: (client, message, command, args, prefix, color, langstr) => {
+  run: async (client, message, command, args, prefix, color, langstr) => {
 
     lang = require(`../lang/${langstr}.json`);
 
@@ -25,8 +25,8 @@ module.exports = {
   }
 }
 
-function getReddit(client, query, message, color) {
-  message.channel.sendTyping();
+async function getReddit(client, query, message, color) {
+  await message.channel.sendTyping();
   if (!message.deleted && message.channel.permissionsFor(client.user.id).has('MANAGE_MESSAGES')) message.delete();
 	fetch('https://www.reddit.com/r/' + query + '.json?limit=100&?sort=top&t=all')
     .then(res => res.json())
@@ -34,7 +34,7 @@ function getReddit(client, query, message, color) {
     .then(urls => postReddit(query, message, urls, color));
 }
 
-function postReddit(query, message, urls, color) {
+async function postReddit(query, message, urls, color) {
 	const randomURL = urls[Math.floor(Math.random() * urls.length) + 1];
 	try {
 		if (randomURL.endsWith("gif") || randomURL.endsWith("jpg") || randomURL.endsWith("png")) {

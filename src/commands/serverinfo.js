@@ -8,7 +8,7 @@ module.exports = {
   run: async (client, message, command, args, prefix, color, langstr) => {
 
     lang = require(`../lang/${langstr}.json`);
-    message.channel.sendTyping();
+    await message.channel.sendTyping();
 
     created = Math.trunc(message.guild.createdTimestamp / 1000);
 

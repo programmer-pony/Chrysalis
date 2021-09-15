@@ -1,13 +1,10 @@
 const { MessageEmbed, MessageButton, MessageActionRow } = require('discord.js');
-var lang = require('../lang/en.json');
 
 module.exports = {
   name: "rolemenu",
   alias: ["role-menu"],
   admin: true,
-  run: async (client, message, command, args, prefix, color, langstr) => {
-
-    lang = require(`../lang/${langstr}.json`);
+  run: async (client, message, command, args, prefix, color, lang) => {
 
     if (!message.guild.me.permissions.has('MANAGE_ROLES')) return message.reply(lang.manage_roles_permission_required);
 

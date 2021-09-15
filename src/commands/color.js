@@ -1,5 +1,4 @@
 const { MessageEmbed } = require('discord.js');
-var lang = require('../lang/en.json');
 var MongoClient = require('mongodb').MongoClient;
 const dbURL = process.env.DB_URL;
 
@@ -7,9 +6,7 @@ module.exports = {
   name: "color",
   alias: ["setcolor","changecolor","set-color","change-color"],
   admin: true,
-  run: (client, message, command, args, prefix, color, langstr) => {
-
-    lang = require(`../lang/${langstr}.json`);
+  run: (client, message, command, args, prefix, color, lang) => {
 
     if (!color.startsWith('#')) color = `#${color}`;
 
@@ -35,7 +32,7 @@ module.exports = {
           collector.on('collect', r => {
             switch (r.emoji.name) {
               case '✅':
-              changeColor(message, requestedColor);
+              changeColor(message, requestedColor, lang);
               confMsg.delete();
               break;
               case '❌':
@@ -54,7 +51,7 @@ module.exports = {
   }
 }
 
-async function changeColor(message, newColor) {
+async function changeColor(message, newColor, lang) {
   const guildID = message.guild.id;
   const db = new MongoClient(dbURL, {
     useNewUrlParser: true,

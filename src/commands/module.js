@@ -1,9 +1,10 @@
 const { MessageEmbed } = require('discord.js');
 const fetch = require("node-fetch");
-var lang = require('../lang/en.json');
+var lang;
 var MongoClient = require('mongodb').MongoClient;
 const dbURL = process.env.DB_URL;
 const defaultModules = require('../defaultModules.json').modules;
+const reloadSlashCommands = require('../utils/reloadSlashCommands.js');
 
 const validModules = defaultModules.map(m => m.name);
 vmembed = new MessageEmbed();
@@ -13,9 +14,9 @@ module.exports = {
   name: "module",
   alias: ["modules","editmodule","config","enable","disable"],
   admin: true,
-  run: (client, message, command, args, prefix, color, langstr) => {
+  run: (client, message, command, args, prefix, color, langv) => {
 
-    lang = require(`../lang/${langstr}.json`);
+    lang = langv;
 
     vmembed.setTitle(lang.valid_modules)
     .setColor(color)
@@ -84,7 +85,8 @@ async function switchModule(message, modulearg, enable, color) {
     await guilds.updateOne({id: guildID},{ $set: { modules: modules}});
     db.close();
     txt = (enable) ? lang.module_enabled : lang.module_disabled;
-    return message.channel.send(txt.replace('{0}', modulearg));
+    message.channel.send(txt.replace('{0}', modulearg));
+    await reloadSlashCommands(message.guild.client, message.guild, lang);
   }
 }
 

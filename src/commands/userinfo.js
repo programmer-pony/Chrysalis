@@ -1,17 +1,16 @@
 const { MessageEmbed } = require('discord.js');
-var lang = require('../lang/en.json');
+var lang;
 
 module.exports = {
   name: "userinfo",
-  alias: ["user-info","avatar"],
+  alias: ["user-info","ui"],
   admin: false,
-  run: async (client, message, command, args, prefix, color, langstr) => {
+  run: async (client, message, command, args, prefix, color, langv) => {
 
-    lang = require(`../lang/${langstr}.json`);
-    await await message.channel.sendTyping();
+    lang = langv;
 
     var taggedUser = args[0];
-    if (message.mentions.members.first()) {
+    if (message.mentions?.members.first()) {
       showMemberInfo(client, command, message, message.mentions.members.first(), color);
     } else {
       if (taggedUser == null || taggedUser == "") return showMemberInfo(client, command, message, message.member, color);
@@ -41,8 +40,6 @@ async function asyncMember(client, command, message, taggedUser, color) {
 
 function showMemberInfo(client, command, message, taggedUser, color) {
 
-  if (command == "avatar") return sendMemberAvatar(client, message, taggedUser, color);
-
   if (taggedUser!=null&&taggedUser!="") {
 
     joined = Math.trunc(taggedUser.joinedTimestamp / 1000);
@@ -57,7 +54,8 @@ function showMemberInfo(client, command, message, taggedUser, color) {
     .addField(lang.server_join_date, `<t:${joined}:F> (<t:${joined}:R>)`)
     .addField(lang.account_creation_date, `<t:${created}:F> (<t:${created}:R>)`)
     .addField(lang.roles, taggedUser.roles.cache.map(roles => `${roles}`).join(' '), true)
-    message.channel.send({embeds:[memberembed]});
+    if (message.author) return message.channel.send({embeds:[memberembed]});
+    else return message.editReply({embeds:[memberembed]});
   }
   else {
     return message.reply(lang.couldn_t_find_that_user);
@@ -65,8 +63,6 @@ function showMemberInfo(client, command, message, taggedUser, color) {
 }
 
 function showUserInfo(client, command, message, taggedUser, color) {
-
-  if (command == "avatar") return sendUserAvatar(client, message, taggedUser, color);
 
   if (taggedUser!=null&&taggedUser!="") {
 
@@ -79,27 +75,10 @@ function showUserInfo(client, command, message, taggedUser, color) {
     .addField(lang.name, `${taggedUser.username}#${taggedUser.discriminator}`)
     .addField(lang.user_id, taggedUser.id)
     .addField(lang.account_creation_date, `<t:${created}:F> (<t:${created}:R>)`)
-    message.channel.send({embeds:[userembed]});
+    if (message.author) return message.channel.send({embeds:[userembed]});
+    else return message.editReply({embeds:[userembed]});
   }
   else {
     return message.reply(lang.couldn_t_find_that_user);
   }
-}
-
-function sendMemberAvatar(client, message, taggedUser, color) {
-  if (taggedUser.user.id == client.user.id) return message.channel.send("https://www.deviantart.com/mirroredsea/art/Chrysalis-718716441");
-  let avatarembed = new MessageEmbed()
-  .setTitle(lang.avatar.replace("{0}",taggedUser.user.username))
-  .setImage(taggedUser.user.displayAvatarURL()+"?size=1024")
-  .setColor(color)
-  return message.channel.send({embeds:[avatarembed]});
-}
-
-function sendUserAvatar(client, message, taggedUser, color) {
-  if (taggedUser.id == client.user.id) return message.channel.send("https://www.deviantart.com/mirroredsea/art/Chrysalis-718716441");
-  let avatarembed = new MessageEmbed()
-  .setTitle(lang.avatar.replace("{0}",taggedUser.username))
-  .setImage(taggedUser.displayAvatarURL()+"?size=1024")
-  .setColor(color)
-  return message.channel.send({embeds:[avatarembed]});
 }

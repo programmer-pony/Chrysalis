@@ -1,5 +1,4 @@
 const { MessageEmbed, MessageButton, MessageActionRow } = require('discord.js');
-var lang = require('../lang/en.json');
 var MongoClient = require('mongodb').MongoClient;
 const dbURL = process.env.DB_URL;
 
@@ -7,11 +6,9 @@ module.exports = {
   name: "help",
   alias: ["commands"],
   admin: false,
-  run: async (client, message, command, args, prefix, color, langstr) => {
+  run: async (client, message, command, args, prefix, color, lang) => {
 
     const helpModules = client.commands.filter(c => !c.admin && c.name!='help').map(c => c.name);
-
-    lang = require(`../lang/${langstr}.json`);
 
     const guildID = message.guild.id
     const channelID = message.channel.id
@@ -24,16 +21,7 @@ module.exports = {
     const guilds = dbo.collection("guilds");
     const guild = await guilds.findOne({id: guildID});
     const modules = guild.modules;
-    if (guild.nsfw == null || guild.nsfw == "") {
-      await guilds.updateOne({id: guildID},{ $set: { nsfw: true}});
-      guild.nsfw = true;
-    }
     if (modules==null) return db.close();
-
-    commandsEmbed = new MessageEmbed()
-    .setColor(color)
-    .setTitle(`__**${lang.commands}**__`);
-
 
     helpEmbed = [];
     let i = 0;
@@ -53,8 +41,8 @@ module.exports = {
           if (helpEmbed[i]?.fields.length == 5) i++;
           if (helpEmbed[i] == null) helpEmbed[i] = new MessageEmbed()
             .setColor(color)
-            .setTitle(`__**${lang.commands}**__`);
-          if (ch[2]!=null && ch[2]=="NSFW" && guild.nsfw) helpEmbed[i].addField("`"+prefix+ch[0]+"` ⚠",ch[1]);
+            .setTitle(`__**${lang.user_commands}**__`);
+          if (ch[2]!=null && ch[2]=="NSFW") helpEmbed[i].addField("`"+prefix+ch[0]+"` ⚠",ch[1]);
           else helpEmbed[i].addField("`"+prefix+ch[0]+"`",ch[1]);
         }
       }

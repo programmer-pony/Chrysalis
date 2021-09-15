@@ -2,25 +2,142 @@
   "author": "Author",
   "message": "Message",
   "channel": "Channel",
-  "commands": "Commands:",
+  "user_commands": "Commands:",
   "admin_commands": "Admin commands:",
+  "commands": [
+    {
+      "name": "avatar",
+      "description": "Sends the avatar of a user.",
+      "options": [
+        {
+          "name": "user",
+          "type": "USER",
+          "description": "The user whose avatar you want to be sent."
+        }
+      ]
+    },
+    {
+      "name": "userinfo",
+      "description": "Shows info about a user.",
+      "options": [
+        {
+          "name": "user",
+          "type": "USER",
+          "description": "The user you want to display info of."
+        }
+      ]
+    },
+    {
+      "name": "roleinfo",
+      "description": "Shows info about a role.",
+      "options": [
+        {
+          "name": "role",
+          "type": "ROLE",
+          "description": "The role to display info of.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "serverinfo",
+      "description": "Shows info about the server."
+    },
+    {
+      "name": "emoji",
+      "description": "Sends the emoji as an image.",
+      "options": [
+        {
+          "name": "emoji",
+          "type": "STRING",
+          "description": "The emoji you want to convert to an image.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "love",
+      "description": "Checks the compatibility level between two users.",
+      "options": [
+        {
+          "name": "lover1",
+          "type": "USER",
+          "description": "First member of the couple.",
+          "required": true
+        },
+        {
+          "name": "lover2",
+          "type": "USER",
+          "description": "Second member of the couple.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "boop",
+      "description": "Boops a user.",
+      "options": [
+        {
+          "name": "user",
+          "type": "USER",
+          "description": "The user you want to boop.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "hug",
+      "description": "Hugs a user.",
+      "options": [
+        {
+          "name": "user",
+          "type": "USER",
+          "description": "The user you want to hug.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "booru",
+      "description": "Sends an image from Manebooru.",
+      "options": [
+        {
+          "name": "tags",
+          "type": "STRING",
+          "description": "Tags to search (separated by commas)."
+        }
+      ]
+    },
+    {
+      "name": "clop",
+      "description": "Sends a clop image from Manebooru.",
+      "options": [
+        {
+          "name": "tags",
+          "type": "STRING",
+          "description": "Tags to search (separated by commas)."
+        }
+      ]
+    },
+    {
+      "name": "mlp",
+      "description": "Download episodes of MLP via torrent!"
+    }
+  ],
   "help": {
     "user": {
-      "userinfo": [
-          ["avatar {user}", "Sends the mentioned user's profile picture. You can also use the user's ID."],
-          ["userinfo {user}", "Shows info about the user. You can mention them or use their ID."]
-        ],
+      "avatar": [["avatar {user}", "Sends the mentioned user's profile picture. You can also use the user's ID."]],
+      "userinfo": [["userinfo {user}", "Shows info about the user. You can mention them or use their ID."]],
       "roleinfo": [["roleinfo {role}", "Shows info about the role. You can type the name of the role to search for it."]],
       "serverinfo": [["serverinfo","Shows info about the server."]],
-      "jumbo": [["jumbo {emoji}", "Sends the emoji as an image."]],
+      "emoji": [["jumbo {emoji}", "Sends the emoji as an image."]],
       "love": [["love {user 1} {user 2 (optional)}", "Checks the compatibility level between two users."]],
       "boop": [["boop {user}", "Boops a user."]],
       "hug": [["hug {user}", "Hugs a user."]],
-      "manebooru": [
+      "booru": [
           ["booru {query (optional)}", "Sends a safe image from Manebooru. You can type search tags."],
           ["clop {query (optional)}", "Sends a clop image from Manebooru. You can type search tags. Can only be used in NSFW channels.","NSFW"]
         ],
-      "reddit": [["yiff", "Sends a yiff image from Reddit. Can only be used in NSFW channels.","NSFW"]],
       "mlp": [["mlp", "Download episodes of MLP via torrent!"]]
     },
     "admin": [

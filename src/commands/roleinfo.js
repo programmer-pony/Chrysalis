@@ -1,14 +1,10 @@
 const { MessageEmbed } = require('discord.js');
-var lang = require('../lang/en.json');
 
 module.exports = {
   name: "roleinfo",
-  alias: ["role-info"],
+  alias: ["role-info","ri"],
   admin: false,
-  run: async (client, message, command, args, prefix, color, langstr) => {
-
-    lang = require(`../lang/${langstr}.json`);
-    await message.channel.sendTyping();
+  run: async (client, message, command, args, prefix, color, lang) => {
 
     await message.guild.members.fetch();
     await message.guild.roles.fetch();
@@ -31,7 +27,8 @@ module.exports = {
         .addField(lang.member_count, requestedRole.members.size.toString())
         .addField(lang.date_created, `<t:${created}:F> (<t:${created}:R>)`);
 
-        message.channel.send({embeds:[roleEmbed]});
+        if (message.author) message.channel.send({embeds:[roleEmbed]});
+        else message.editReply({embeds:[roleEmbed]});
 
       } else message.reply(lang.unkown_role);
 

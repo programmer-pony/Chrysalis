@@ -1,16 +1,13 @@
 const { MessageEmbed, MessageButton, MessageActionRow } = require('discord.js');
 let Parser = require('rss-parser');
 let parser = new Parser();
-var lang = require('../lang/en.json');
 
 module.exports = {
   name: "mlp",
   alias: ["episode","episodes","mylittlepony","torrent","torrents","fim","mlpfim","download"],
   admin: false,
-  run: async (client, message, command, args, prefix, color, langstr) => {
+  run: async (client, message, command, args, prefix, color, lang) => {
 
-    lang = require(`../lang/${langstr}.json`);
-    await message.channel.sendTyping();
     season = [];
     try { // Just in case yayponies is down
       feed = await parser.parseURL('https://yayponies.no/videos/rss/1it.rss');
@@ -58,8 +55,8 @@ module.exports = {
       .setStyle('SECONDARY')
       .setLabel('>')
       .setCustomId('right');
-    const sentEmbed = await message.channel.send({embeds:[seasonEmbed[1]], components: [new MessageActionRow().addComponents([leftButton, rightButton])]});
-    const filter = (interaction) => interaction.user.id === message.author.id;
+    const sentEmbed = message.author ? await message.channel.send({embeds:[seasonEmbed[1]], components: [new MessageActionRow().addComponents([leftButton, rightButton])]}) : await message.editReply({embeds:[seasonEmbed[1]], components: [new MessageActionRow().addComponents([leftButton, rightButton])]});
+    const filter = (interaction) => interaction.user.id === message.member.user.id;
     const collector = sentEmbed.createMessageComponentCollector({filter,  time: 120000 });
     var currentPage = 1;
     collector.on('collect', (i) => {

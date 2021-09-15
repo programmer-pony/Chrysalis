@@ -1,14 +1,10 @@
 const { MessageEmbed } = require('discord.js');
-var lang = require('../lang/en.json');
 
 module.exports = {
   name: "serverinfo",
-  alias: ["server-info"],
+  alias: ["server-info","server","si"],
   admin: false,
-  run: async (client, message, command, args, prefix, color, langstr) => {
-
-    lang = require(`../lang/${langstr}.json`);
-    await message.channel.sendTyping();
+  run: async (client, message, command, args, prefix, color, lang) => {
 
     created = Math.trunc(message.guild.createdTimestamp / 1000);
 
@@ -25,7 +21,8 @@ module.exports = {
     .addField(lang.server_boosts, message.guild.premiumSubscriptionCount.toString(),true)
     .addField(lang.date_created, `<t:${created}:F> (<t:${created}:R>)`);
 
-    message.channel.send({embeds:[embed]});
+    if (message.author == null) message.editReply({embeds:[embed]});
+    else message.channel.send({embeds:[embed]});
 
   }
 }

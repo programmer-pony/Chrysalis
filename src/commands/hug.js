@@ -1,13 +1,10 @@
 const { MessageEmbed } = require('discord.js');
-var lang = require('../lang/en.json');
 
 module.exports = {
   name: "hug",
   alias: ["hugs","cuddle","cuddles","snuggle","snuggles"],
   admin: false,
-  run: async (client, message, command, args, prefix, color, langstr) => {
-
-    lang = require(`../lang/${langstr}.json`);
+  run: async (client, message, command, args, prefix, color, lang) => {
 
     if (args[0]==null || args[0]=="") return message.reply(lang.please_specify_a_user);
 
@@ -16,7 +13,7 @@ module.exports = {
     var onSelf = false;
     var onChrysalis = false;
 
-    if (message.mentions.members.first()) {
+    if (message.mentions?.members.first()) {
       if (message.mentions.members.first().user.id == message.author.id) onSelf = true;
       if (message.mentions.members.first().user.id == client.user.id) onChrysalis = true;
       if (message.mentions.members.first().nickname)
@@ -25,7 +22,7 @@ module.exports = {
       if (message.mentions.members.first().displayHexColor!="#000000")
       color = message.mentions.members.first().displayHexColor;
     }
-    else if (message.mentions.users.first()) targetUser = message.mentions.users.first().username;
+    else if (message.mentions?.users.first()) targetUser = message.mentions.users.first().username;
     else if (args[0].startsWith("<@!")) {
       try {
         targetUser = await client.users.fetch(args[0].substring(3,args[0].length-1));
@@ -42,8 +39,15 @@ module.exports = {
       } catch (e) {
         targetUser = args[0];
       }
+    } else {
+      try {
+        targetUser = await client.users.fetch(args[0]);
+        if (targetUser.id == client.user.id) onChrysalis = true;
+        targetUser = targetUser.username;
+      } catch (e) {
+        targetUser = args.toString().split(',').join(' ');
+      }
     }
-    else targetUser = args.toString().split(',').join(' ');
     if (targetUser == '@everyone' || targetUser == '@here') targetUser = 'everypony';
 
     const gifs = [
@@ -70,7 +74,9 @@ module.exports = {
     .setImage("https://cdn.discordapp.com/attachments/862296245922037800/876471497655468032/-_everypony.gif")
     else embed.setTitle(lang.hug_title.replace('{0}',author).replace('{1}',targetUser))
     .setImage(gifs[Math.floor(Math.random() * gifs.length)])
-    message.channel.send({embeds:[embed]});
+
+    if (message.author == null) message.editReply({embeds:[embed]});
+    else message.channel.send({embeds:[embed]});
 
   }
 

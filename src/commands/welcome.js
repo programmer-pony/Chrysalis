@@ -2,15 +2,13 @@ const { MessageEmbed, MessageAttachment } = require('discord.js');
 var MongoClient = require('mongodb').MongoClient;
 const dbURL = process.env.DB_URL;
 const Canvas = require('canvas');
-var lang = require('../lang/en.json');
 
 module.exports = {
   name: "welcome",
   alias: ["welcome-image","greeting","greeting-image"],
   admin: true,
-  run: async (client, message, command, args, prefix, color, langstr) => {
+  run: async (client, message, command, args, prefix, color, lang) => {
 
-    lang = require(`../lang/${langstr}.json`);
     if (!message.channel.permissionsFor(client.user.id).has('ATTACH_FILES')) return message.reply(lang.attach_files_permission_missing);
 
     var taggedUser = args[0];
@@ -21,7 +19,8 @@ module.exports = {
       try {
         user ??= await client.users.fetch(taggedUser);
       } catch (e) {
-        return message.reply(lang.couldn_t_find_that_user);
+        if (message.author) return message.reply(lang.couldn_t_find_that_user);
+        else return message.editReply(lang.couldn_t_find_that_user);
       }
     }
     user ??= message.member;
@@ -48,7 +47,6 @@ module.exports = {
       bgURL = '';
     } else bgURL = welcome.background;
     db.close();
-    await message.channel.sendTyping();
 
     // Create canvas
     const canvas = Canvas.createCanvas(960,540);
@@ -96,7 +94,8 @@ module.exports = {
 
     // Send the image
     const attachment = new MessageAttachment(canvas.toBuffer(), 'welcome.png');
-    message.channel.send({files: [attachment]});
+    if (message.author) message.channel.send({files: [attachment]});
+    else message.editReply({files: [attachment]});
 
   }
 

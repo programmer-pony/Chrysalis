@@ -1,5 +1,4 @@
 const { MessageEmbed } = require('discord.js');
-var lang = require('../lang/en.json');
 var MongoClient = require('mongodb').MongoClient;
 const dbURL = process.env.DB_URL;
 
@@ -7,9 +6,7 @@ module.exports = {
   name: "prefix",
   alias: ["setprefix","changeprefix","prefixset","set-prefix","change-prefix"],
   admin: true,
-  run: (client, message, command, args, prefix, color, langstr) => {
-    
-    lang = require(`../lang/${langstr}.json`);
+  run: (client, message, command, args, prefix, color, lang) => {
 
       if (args[0]==null || args[0]=="") {
         message.channel.send(lang.the_current_prefix_is.replace('{0}', prefix))
@@ -23,7 +20,7 @@ module.exports = {
           collector.on('collect', r => {
             switch (r.emoji.name) {
               case '✅':
-              changePrefix(message, args[0]);
+              changePrefix(message, args[0], lang);
               confMsg.delete();
               break;
               case '❌':
@@ -42,7 +39,7 @@ module.exports = {
   }
 }
 
-async function changePrefix(message, newPrefix) {
+async function changePrefix(message, newPrefix, lang) {
   const guildID = message.guild.id;
   const db = new MongoClient(dbURL, {
     useNewUrlParser: true,

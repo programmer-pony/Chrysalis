@@ -2,25 +2,142 @@
   "author": "Autore",
   "message": "Messaggio",
   "channel": "Canale",
-  "commands": "Comandi:",
+  "user_commands": "Comandi:",
   "admin_commands": "Comandi Admin:",
+  "commands": [
+    {
+      "name": "avatar",
+      "description": "Invia il avatar dell'utente menzionato.",
+      "options": [
+        {
+          "name": "utente",
+          "type": "USER",
+          "description": "The user whose avatar you want to be sent."
+        }
+      ]
+    },
+    {
+      "name": "userinfo",
+      "description": "Mostra informazioni account dell'utente menzionato.",
+      "options": [
+        {
+          "name": "utente",
+          "type": "USER",
+          "description": "The user you want to display info of."
+        }
+      ]
+    },
+    {
+      "name": "roleinfo",
+      "description": "Mostra informazioni sul ruolo.",
+      "options": [
+        {
+          "name": "ruolo",
+          "type": "ROLE",
+          "description": "The role to display info of.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "serverinfo",
+      "description": "Mostra informazioni sul server."
+    },
+    {
+      "name": "emoji",
+      "description": "Invia l'emoji come un'immagine.",
+      "options": [
+        {
+          "name": "emoji",
+          "type": "STRING",
+          "description": "The emoji you want to convert to an image.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "love",
+      "description": "Verifica la compatibilità tra due utenti.",
+      "options": [
+        {
+          "name": "amante1",
+          "type": "USER",
+          "description": "First member of the couple.",
+          "required": true
+        },
+        {
+          "name": "amante2",
+          "type": "USER",
+          "description": "Second member of the couple.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "boop",
+      "description": "Boop un'utente.",
+      "options": [
+        {
+          "name": "utente",
+          "type": "USER",
+          "description": "The user you want to boop.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "hug",
+      "description": "Abbraccia un'utente.",
+      "options": [
+        {
+          "name": "utente",
+          "type": "USER",
+          "description": "The user you want to hug.",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "booru",
+      "description": "Invia un'immagine SFW da Manebooru.",
+      "options": [
+        {
+          "name": "tags",
+          "type": "STRING",
+          "description": "Tags to search (separated by commas)."
+        }
+      ]
+    },
+    {
+      "name": "clop",
+      "description": "Invia un'immagine NSFW da Manebooru.",
+      "options": [
+        {
+          "name": "tags",
+          "type": "STRING",
+          "description": "Tags to search (separated by commas)."
+        }
+      ]
+    },
+    {
+      "name": "mlp",
+      "description": "Torrent episodi MLP"
+    }
+  ],
   "help": {
     "user": {
-      "userinfo": [
-          ["avatar {utente}", "Invia il avatar dell'utente menzionato. Puoi usare l'ID dell'utente."],
-          ["userinfo {utente}", "Mostra informazioni account dell'utente menzionato. Puoi usare l'ID dell'utente."]
-        ],
+      "avatar": [["avatar {utente}", "Invia il avatar dell'utente menzionato. Puoi usare l'ID dell'utente."]],
+      "userinfo": [["userinfo {utente}", "Mostra informazioni account dell'utente menzionato. Puoi usare l'ID dell'utente."]],
       "roleinfo": [["roleinfo {ruolo}", "Mostra informazioni sul ruolo. Puoi digitare il nome dell'ruolo per cercarlo."]],
       "serverinfo": [["serverinfo","Mostra informazioni sul server."]],
-      "jumbo": [["jumbo {emoji}", "Invia l'emoji come un'immagine."]],
+      "emoji": [["jumbo {emoji}", "Invia l'emoji come un'immagine."]],
       "love": [["love {utente 1} {utente 2 (opzionale)}", "Verifica la compatibilità tra due utenti."]],
-      "boop": [["boop {utente}", "Boop un'utente"]],
-      "hug": [["hug {utente}", "Abbraccia un'utente"]],
-      "manebooru": [
+      "boop": [["boop {utente}", "Boop un'utente."]],
+      "hug": [["hug {utente}", "Abbraccia un'utente."]],
+      "booru": [
           ["booru {query (optional)}", "Invia un'immagine SFW da Manebooru. Puoi usare termini di ricerca."],
           ["clop {query (optional)}", "Invia un'immagine NSFW da Manebooru. Puoi usare termini di ricerca. Solo può essere usato in un canale NSFW.","NSFW"]
         ],
-      "reddit": [["yiff", "Invia yiff da Reddit. Solo può essere usato in un canale NSFW.","NSFW"]],
       "mlp": [["mlp", "Torrent episodi MLP"]]
     },
     "admin": [

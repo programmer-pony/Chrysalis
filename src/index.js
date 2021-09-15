@@ -6,29 +6,19 @@ const path = require('path');
 var fs = require('fs');
 var MongoClient = require('mongodb').MongoClient;
 const dbURL = process.env.DB_URL;
+const reloadSlashCommands = require('./utils/reloadSlashCommands.js');
 const Canvas = require('canvas');
 const defaultColor = "#245128";
 const defaultModules = require('./defaultModules.json').modules;
 const presence = require('./presence.json');
 
 // Fetch servers and set Rich Presence
-client.on('ready', () => {
+client.on('ready', async () => {
 	console.log(colors.bgWhite.black(`Bot started as ${client.user.tag}`));
-  for (guild of client.guilds.cache) {
-    client.guilds.fetch(guild[0],{force:true}).then(console.log(`${guild[1].name} fetched`));
-  }
+	await registerSlashCommands();
 	client.user.setPresence(presence)
 	console.log(colors.bgWhite.black(`Ready!`));
 });
-
-// Load commands
-client.commands = new Collection();
-let commands = fs.readdirSync(path.resolve(__dirname, 'commands')).filter((f) => f.endsWith(".js"));
-for (var jsfile of commands) {
-	let commandfile = require("./commands/"+jsfile);
-	client.commands.set(commandfile.name, commandfile);
-	console.log(jsfile+" loaded");
-}
 
 client.on('guildCreate', (guild) => {
   console.log("Client joined guild with ID "+guild.id)
@@ -36,8 +26,6 @@ client.on('guildCreate', (guild) => {
 });
 
 client.on('messageCreate', async (message) => {
-
-	showChatInConsole(message);
 
 	if (message.guild == null) return; // Ignore if message is a DM
 	if (message.author.bot) return;
@@ -52,7 +40,7 @@ client.on('messageCreate', async (message) => {
 	if (await bannedWords(message)) return;
 
 	// Execute command
-  command(message);
+  runCommand(message);
 
 });
 
@@ -190,6 +178,7 @@ client.on('guildMemberUpdate', (oldMember, newMember) => {
 });
 
 client.on('interactionCreate', async (i) => {
+	if (i.isCommand()) return runSlashCommand(i);
 	if (!i.isButton()) return;
 	if (i.guild == null) return i.deferUpdate();
 	if (!i.customId.startsWith("role-")) return;
@@ -299,40 +288,20 @@ async function isRestricted(command, message) {
       db.close();
       return false;
     } else {
+			db.close();
       if (!cmdModule.enabled) return true;
-      if (cmdModule.restricted) {
-        db.close();
-        return (cmdModule.allowedChannels.indexOf(channelID) == -1);
-      } else {
-        db.close();
-        return false;
-      }
+      if (cmdModule.restricted) return (cmdModule.allowedChannels.indexOf(channelID) == -1);
+      else return false;
     }
   }
 }
 
-async function showChatInConsole(message) {
-  var d = new Date();
-  var h = d.getHours();
-  var m = d.getMinutes();
-  if (m<10) m = "0"+m;
-  var channel;
-  if (message.guild== null) channel = "DM";
-  else channel = `${message.guild.name} | ${message.channel.name}`;
-	if (message.content !="") {
-		console.log(colors.gray(`${h}:${m} | ${channel} | ${message.author.tag}: ${message.content}`));
-	} else {
-		console.log(colors.gray(`${h}:${m} | ${channel} | ${message.author.tag}: (Image)`));
-	}
-}
-
-async function command(message) {
+async function runCommand(message) {
 
   if (!message.channel.permissionsFor(client.user.id).has('SEND_MESSAGES')) return;
 
   const prefix = await getPrefix(message.guild.id);
-  const langstr = await getLang(message.guild.id);
-  const lang = require(`./lang/${langstr}.json`);
+  const lang = require(`./lang/${await getLang(message.guild.id)}.json`);
 
   if (message.content.startsWith(prefix)) {
     const args = message.content.slice(prefix.length).split(/ +/);
@@ -346,11 +315,50 @@ async function command(message) {
         message.author.send(lang.wrong_channel);
         if (!message.deleted && message.channel.permissionsFor(client.user.id).has('MANAGE_MESSAGES')) message.delete();
       } else {
-        const color = await getColor(message.guild.id)
-        cmd.run(client, message, command, args, prefix, color, langstr);
+        const color = await getColor(message.guild.id);
+				if (cmd.name!='clean') await message.channel.sendTyping();
+        cmd.run(client, message, command, args, prefix, color, lang);
       }
     }
   }
+}
+
+async function runSlashCommand(i) {
+
+  if (!i.channel.permissionsFor(client.user.id).has('SEND_MESSAGES')) return;
+  const lang = require(`./lang/${await getLang(i.guild.id)}.json`);
+
+	const command = i.commandName;
+	const args = i.options.data.map(d => d.value);
+	let cmd = client.commands.get(command) || client.commands.find((c) => c.alias.includes(command));
+	if (cmd) {
+		var restricted = false;
+		if (!cmd.admin) restricted = await isRestricted(command, i);
+		else if (!i.member.permissions.has('ADMINISTRATOR')) return;
+		if (restricted) i.user.send(lang.wrong_channel);
+		else {
+			const color = await getColor(i.guild.id);
+			await i.deferReply();
+			cmd.run(client, i, command, args, null, color, lang);
+		}
+	}
+
+}
+
+async function registerSlashCommands() {
+
+	// Load commands
+	client.commands = new Collection();
+	let commands = fs.readdirSync(path.resolve(__dirname, 'commands')).filter((f) => f.endsWith(".js"));
+	for (var jsfile of commands) {
+		let commandfile = require("./commands/"+jsfile);
+		client.commands.set(commandfile.name, commandfile);
+		console.log(jsfile+" loaded");
+	}
+	for (guild of client.guilds.cache) {
+		const lang = require(`./lang/${await getLang(guild[0])}.json`);
+		await reloadSlashCommands(client, guild[1], lang);
+	}
 }
 
 async function bannedWords(message) {
@@ -498,26 +506,20 @@ async function checkSuggestion(message) {
   const guild = await guilds.findOne({id: guildID});
   db.close();
   if (guild==null) return;
-  else {
-    const modules = guild.modules;
-    if (modules==null) return;
-    else {
-      const suggestions = modules.find((c) => c.name == "suggestions");
-      if (suggestions==null) return;
-      else {
-        if (suggestions.enabled) {
-          if (suggestions.channel!="") {
-            if (message.channel.id == suggestions.channel) {
-              if (message.content.includes("http://") || message.content.includes("https://") || message.attachments.size>0) {
-                message.react("✅");
-                message.react("❌");
-              }
-            }
-          }
-        }
-      }
-    }
-  }
+	const modules = guild.modules;
+	if (modules==null) return;
+	const suggestions = modules.find((c) => c.name == "suggestions");
+	if (suggestions==null) return;
+	if (suggestions.enabled) {
+		if (suggestions.channel!="") {
+			if (message.channel.id == suggestions.channel) {
+				if (message.content.includes("http://") || message.content.includes("https://") || message.attachments.size>0) {
+					message.react("✅");
+					message.react("❌");
+				}
+			}
+		}
+	}
 }
 
 async function sendDeletedMessage(message) {

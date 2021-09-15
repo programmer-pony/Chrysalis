@@ -1,27 +1,28 @@
 const { MessageEmbed } = require('discord.js');
-var lang = require('../lang/en.json');
 
 module.exports = {
   name: "love",
   alias: ["amor","lovemeter","ship"],
   admin: false,
-  run: (client, message, command, args, prefix, color, langstr) => {
+  run: async (client, message, command, args, prefix, color, lang) => {
 
-    lang = require(`../lang/${langstr}.json`);
+    if (message.mentions == null) lovers = [await client.users.fetch(args[0]), await client.users.fetch(args[1])];
+    else {
+      lovers = Array.from(message.mentions.users.values());
+      if (!message.mentions.users.first()) return message.reply(lang.type_one_or_two_users);
+    }
 
-    if (!message.mentions.users.first()) return message.reply(lang.type_one_or_two_users);
-
-    lovers = Array.from(message.mentions.users.values())
-
-    if (lovers[0] == null || lovers[0] == '') return console.log('xd')
+    if (lovers[0] == null || lovers[0] == '') return; // This should never happen but I wanna make sure
     if (lovers[1] == null || lovers[1] == '') {
       if (lovers[0].id == message.author.id) return message.channel.send(lang.self_love);
       lovers[1] = lovers[0];
       lovers[0] = message.author;
     }
 
-    if (lovers[0].id == message.author.id && lovers[1].id == message.author.id) return message.channel.send(lang.self_love);
-    if (lovers[1] == lovers[0]) return message.channel.send("...");
+    if (lovers[0].id == message.member.user.id && lovers[1].id == message.member.user.id) {
+      if (message.author) return message.channel.send(lang.self_love);
+      else return message.editReply(lang.self_love);
+    }
 
     var lovePercent = Math.floor(Math.random()*100+1);
     switch (Math.floor(lovePercent/10)) {
@@ -71,7 +72,7 @@ module.exports = {
       break;
     }
 
-    if (lovers[0].id == client.user.id || lovers[1].id == client.user.id) {
+    if (lovers[0].id == client.user.id || lovers[1].id == client.user.id || lovers[1] == lovers[0]) {
       lovePercent = 0;
       percentBar = "⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜";
       percentMessage = "...";
@@ -81,6 +82,8 @@ module.exports = {
     .setTitle(`${lovers[0].username} x ${lovers[1].username}`)
     .setDescription(`${lovePercent}%   ${percentBar}\n${percentMessage}`)
     .setColor(color);
-    message.channel.send({embeds:[embed]});
+
+    if (message.author == null) message.editReply({embeds:[embed]});
+    else message.channel.send({embeds:[embed]});
   }
 }

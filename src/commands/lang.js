@@ -1,17 +1,18 @@
 const { MessageEmbed } = require('discord.js');
-var lang = require('../lang/en.json');
 var fs = require('fs');
 const path = require('path');
 var MongoClient = require('mongodb').MongoClient;
 const dbURL = process.env.DB_URL;
+const reloadSlashCommands = require('../utils/reloadSlashCommands.js');
+var lang;
 
 module.exports = {
   name: "lang",
   alias: ["setlang","language","setlanguage"],
   admin: true,
-  run: (client, message, command, args, prefix, color, langstr) => {
+  run: (client, message, command, args, prefix, color, langv) => {
 
-    lang = require(`../lang/${langstr}.json`);
+    lang = langv;
 
     validLangs = fs.readdirSync(path.resolve(__dirname, '../lang/')).filter((f) => f.endsWith(".json")).map(f => f.slice(0,f.indexOf('.json')));
 
@@ -20,14 +21,15 @@ module.exports = {
         .setTitle(lang.available_languages)
         .setColor(color)
         .setDescription(validLangs.toString().split(',').join('\n'));
-        message.channel.send({embeds:[embed]});
+        if (message.author) message.channel.send({embeds:[embed]});
+        else message.editReply({embeds:[embed]})
       } else {
-        changeLang(message, args[0]);
+        changeLang(client, message, args[0]);
       }
   }
 }
 
-async function changeLang(message, newLang) {
+async function changeLang(client, message, newLang) {
   const guildID = message.guild.id;
   const db = new MongoClient(dbURL, {
     useNewUrlParser: true,
@@ -42,5 +44,7 @@ async function changeLang(message, newLang) {
   await guilds.updateOne({id: guildID},{ $set: { lang: newLang}});
   db.close();
   lang = require(`../lang/${newLang}.json`);
-  message.channel.send(lang.new_lang_message);
+  reloadSlashCommands(client, message.guild, lang);
+  if (message.author) message.channel.send(lang.new_lang_message);
+  else message.editReply(lang.new_lang_message);
 }

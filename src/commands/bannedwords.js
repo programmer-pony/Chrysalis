@@ -1,6 +1,6 @@
 const { MessageEmbed } = require('discord.js');
 var fs = require('fs');
-var lang = require('../lang/en.json');
+var lang;
 var MongoClient = require('mongodb').MongoClient;
 const dbURL = process.env.DB_URL;
 
@@ -8,9 +8,9 @@ module.exports = {
   name: "bannedwords", // Name of the DB module
   alias: ["addword","addwords","delword","deleteword","removeword","delwords","deletewords","removewords","listwords","wordslist","wordlist"], // Actual command names
   admin: true,
-  run: (client, message, command, args, prefix, color, langstr) => {
+  run: (client, message, command, args, prefix, color, langv) => {
 
-    lang = require(`../lang/${langstr}.json`);
+    lang = langv;
 
     if (command == "bannedwords") return;
 

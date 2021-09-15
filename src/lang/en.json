@@ -126,19 +126,17 @@
   ],
   "help": {
     "user": {
-      "avatar": [["avatar {user}", "Sends the mentioned user's profile picture. You can also use the user's ID."]],
-      "userinfo": [["userinfo {user}", "Shows info about the user. You can mention them or use their ID."]],
-      "roleinfo": [["roleinfo {role}", "Shows info about the role. You can type the name of the role to search for it."]],
-      "serverinfo": [["serverinfo","Shows info about the server."]],
-      "emoji": [["jumbo {emoji}", "Sends the emoji as an image."]],
-      "love": [["love {user 1} {user 2 (optional)}", "Checks the compatibility level between two users."]],
-      "boop": [["boop {user}", "Boops a user."]],
-      "hug": [["hug {user}", "Hugs a user."]],
-      "booru": [
-          ["booru {query (optional)}", "Sends a safe image from Manebooru. You can type search tags."],
-          ["clop {query (optional)}", "Sends a clop image from Manebooru. You can type search tags. Can only be used in NSFW channels.","NSFW"]
-        ],
-      "mlp": [["mlp", "Download episodes of MLP via torrent!"]]
+      "avatar": ["avatar {user}", "Sends the mentioned user's profile picture. You can also use the user's ID."],
+      "userinfo": ["userinfo {user}", "Shows info about the user. You can mention them or use their ID."],
+      "roleinfo": ["roleinfo {role}", "Shows info about the role. You can type the name of the role to search for it."],
+      "serverinfo": ["serverinfo","Shows info about the server."],
+      "emoji": ["jumbo {emoji}", "Sends the emoji as an image."],
+      "love": ["love {user 1} {user 2 (optional)}", "Checks the compatibility level between two users."],
+      "boop": ["boop {user}", "Boops a user."],
+      "hug": ["hug {user}", "Hugs a user."],
+      "booru": ["booru {query (optional)}", "Sends a safe image from Manebooru. You can type search tags."],
+      "clop": ["clop {query (optional)}", "Sends a clop image from Manebooru. You can type search tags. Can only be used in NSFW channels.","NSFW"],
+      "mlp": ["mlp", "Download episodes of MLP via torrent!"]
     },
     "admin": [
       ["setprefix {prefix}", "Sets the prefix of the bot commands in this server."],

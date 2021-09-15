@@ -37,14 +37,12 @@ module.exports = {
       }
 
       if (helpModule.enabled) {
-        for (ch of lang.help.user[moduleName]) {
-          if (helpEmbed[i]?.fields.length == 5) i++;
-          if (helpEmbed[i] == null) helpEmbed[i] = new MessageEmbed()
-            .setColor(color)
-            .setTitle(`__**${lang.user_commands}**__`);
-          if (ch[2]!=null && ch[2]=="NSFW") helpEmbed[i].addField("`"+prefix+ch[0]+"` ⚠",ch[1]);
-          else helpEmbed[i].addField("`"+prefix+ch[0]+"`",ch[1]);
-        }
+        if (helpEmbed[i]?.fields.length == 5) i++;
+        if (helpEmbed[i] == null) helpEmbed[i] = new MessageEmbed()
+          .setColor(color)
+          .setTitle(`__**${lang.user_commands}**__`);
+        if (lang.help.user[moduleName][2]!=null && lang.help.user[moduleName][2]=="NSFW") helpEmbed[i].addField("`"+prefix+lang.help.user[moduleName][0]+"` ⚠",lang.help.user[moduleName][1]);
+        else helpEmbed[i].addField("`"+prefix+lang.help.user[moduleName][0]+"`",lang.help.user[moduleName][1]);
       }
     }
 

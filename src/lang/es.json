@@ -126,19 +126,17 @@
   ],
   "help": {
     "user": {
-      "avatar": [["avatar {usuario}", "Envía la foto de perfil del usuario mencionado. También puedes escribir su ID de usuario."]],
-      "userinfo": [["userinfo {usuario}", "Muestra información sobre el usuario. Puedes usar una mención o la ID del usuario."]],
-      "roleinfo": [["roleinfo {rol}", "Muestra información sobre el rol. Puedes escribir el nombre del rol para buscarlo."]],
-      "serverinfo": [["serverinfo","Muestra información sobre el servidor."]],
-      "emoji": [["jumbo {emoji}", "Envía el emoji como una imagen."]],
-      "love": [["love {usuario 1} {usuario 2 (opcional)}", "Comprueba tu nivel de compatibilidad entre dos usuarios. Si solo escribes un usuario el otro serás tú."]],
-      "boop": [["boop {usuario}", "Hace boop a un usuario."]],
-      "hug": [["hug {usuario}", "Abraza a un usuario."]],
-      "booru": [
-          ["booru {búsqueda (opcional)}", "Envía una imagen de Manebooru. Puedes escribir tags para buscar."],
-          ["clop {búsqueda (opcional)}", "Envía una imagen clop de Manebooru. Puedes escribir tags para buscar. Solo se puede usar en canales NSFW.","NSFW"]
-        ],
-      "mlp": [["mlp", "¡Descarga episodios de MLP por torrent!"]]
+      "avatar": ["avatar {usuario}", "Envía la foto de perfil del usuario mencionado. También puedes escribir su ID de usuario."],
+      "userinfo": ["userinfo {usuario}", "Muestra información sobre el usuario. Puedes usar una mención o la ID del usuario."],
+      "roleinfo": ["roleinfo {rol}", "Muestra información sobre el rol. Puedes escribir el nombre del rol para buscarlo."],
+      "serverinfo": ["serverinfo","Muestra información sobre el servidor."],
+      "emoji": ["jumbo {emoji}", "Envía el emoji como una imagen."],
+      "love": ["love {usuario 1} {usuario 2 (opcional)}", "Comprueba tu nivel de compatibilidad entre dos usuarios. Si solo escribes un usuario el otro serás tú."],
+      "boop": ["boop {usuario}", "Hace boop a un usuario."],
+      "hug": ["hug {usuario}", "Abraza a un usuario."],
+      "booru": ["booru {búsqueda (opcional)}", "Envía una imagen de Manebooru. Puedes escribir tags para buscar."],
+      "clop": ["clop {búsqueda (opcional)}", "Envía una imagen clop de Manebooru. Puedes escribir tags para buscar. Solo se puede usar en canales NSFW.","NSFW"],
+      "mlp": ["mlp", "¡Descarga episodios de MLP por torrent!"]
     },
     "admin": [
       ["setprefix {prefijo}", "Establece el prefijo de los comandos del bot en este servidor."],

@@ -21,7 +21,7 @@ client.on('ready', async () => {
 });
 
 client.on('guildCreate', (guild) => {
-  console.log("Client joined guild with ID "+guild.id)
+  console.log(`Client joined guild ${guild.name} with ID ${guild.id}`)
   createGuild(guild.id);
 });
 
@@ -489,9 +489,10 @@ async function createGuild(guildID) {
       color: defaultColor,
       modules: defaultModules
     });
-		console.log('Created guild with ID '+guildID);
+		console.log(`Created guild ${client.guilds.cache.get(guildID).name} with ID ${guildID}`);
   }
   db.close();
+	await reloadSlashCommands(client, client.guilds.cache.get(guildID), require(`./lang/${await getLang(guildID)}.json`));
 }
 
 async function checkSuggestion(message) {

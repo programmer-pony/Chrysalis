@@ -395,6 +395,7 @@ async function bannedWords(message) {
 			db.close();
       if (bannedwords == null) return false;
       if (logs == null) return false;
+			if (!bannedwords.enabled) return false;
       for (word of bannedwords.words) {
         if (message.content.toLowerCase().includes(word.toLowerCase())) {
           message.author.send(lang.message_deleted_dm);

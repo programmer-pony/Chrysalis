@@ -45,7 +45,10 @@ async function getBooru(client, query, message, color, numberOfPages) {
     await fetch('https://manebooru.art/api/v1/json/search/images?q=' + query + "&page=" + randomPage)
       .then(res => res.json())
       .then(json => {
-        if (json.images==null || json.images.length < 1) return message.reply(lang.no_images_found);
+        if (json.images==null || json.images.length < 1)
+        if (message.author)
+        return message.reply(lang.no_images_found);
+        else return message.editReply(lang.no_images_found);
         imageCount = json.total;
         if (numberOfPages == 1 && imageCount > 50) {
           numberOfPages = Math.trunc(imageCount/50)+1;
@@ -58,7 +61,9 @@ async function getBooru(client, query, message, color, numberOfPages) {
         postBooru(client, query, message, imageID, imageURL, color);
       })
   } catch (e) {
+    if (message.author)
     return message.reply(lang.no_images_found);
+    else return message.editReply(lang.no_images_found);
   }
 }
 

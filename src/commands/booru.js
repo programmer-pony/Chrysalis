@@ -71,10 +71,10 @@ async function postBooru(client, query, message, imageID, imageURL, color) {
   sentEmbed.react("❤️");
   sentEmbed.react("❌");
   sentEmbed.createReactionCollector().on('collect', (r, u) => {
-      if (r.emoji.name != '❌') return;
-      if (r.count > 2 || u.id == message.member.user.id) {
-        if (!sentEmbed.deleted) sentEmbed.delete();
-        if (message.author && !message.deleted && message.channel.permissionsFor(client.user.id).has('MANAGE_MESSAGES')) message.delete();
+    if (r.emoji.name != '❌') return;
+    if (r.count > 2 || u.id == message.member.user.id) {
+      if (sentEmbed.deleted == false) sentEmbed.delete();
+      if (message.author && message.deleted == false && message.channel.permissionsFor(client.user.id).has('MANAGE_MESSAGES')) message.delete();
     }
   });
 }

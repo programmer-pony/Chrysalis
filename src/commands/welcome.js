@@ -2,6 +2,7 @@ const { MessageEmbed, MessageAttachment } = require('discord.js');
 var MongoClient = require('mongodb').MongoClient;
 const dbURL = process.env.DB_URL;
 const Canvas = require('canvas');
+const { fillTextWithTwemoji } = require('node-canvas-with-twemoji-and-discord-emoji');
 
 module.exports = {
   name: "welcome",
@@ -69,7 +70,7 @@ module.exports = {
     ctx.shadowOffsetX = 2;
     ctx.shadowOffsetY = 2;
     ctx.shadowBlur = 10;
-    ctx.fillText(`${user.username.length > 21 ? user.username.toUpperCase().substring(0,18)+'...' : user.username.toUpperCase()}#${user.discriminator}`, canvas.width/2, canvas.height/2+180);
+    await fillTextWithTwemoji(ctx, `${user.username.length > 21 ? user.username.toUpperCase().substring(0,18)+'...' : user.username.toUpperCase()}#${user.discriminator}`, canvas.width/2, canvas.height/2+180);
     ctx.font = '96px Montserrat Black';
     ctx.fillText(lang.welcome.toUpperCase(), canvas.width/2, canvas.height/2+136);
     ctx.font = '36px Montserrat Black';

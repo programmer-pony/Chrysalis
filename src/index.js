@@ -168,6 +168,7 @@ client.on('guildMemberRemove', async (member) => {
 	if (channel != null) {
 		if (goodbye.message == null || goodbye.message.trim() == '') goodbye.message = 'default';
 		if (goodbye.message == 'default') goodbye.message = lang.goodbye_user;
+		if (!channel.permissionsFor(client.user.id).has('SEND_MESSAGES')) return;
 		channel.send(goodbye.message.replaceAll('{user}',user.tag).replaceAll('{guild}',member.guild.name));
 	}
 });

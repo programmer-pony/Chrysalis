@@ -227,6 +227,7 @@
   "module_disabled": "Módulo {0} deshabilitado",
   "current_color": "Color actual",
   "change_color_to": "¿Cambiar color a {0}?",
+  "invalid_color": "Color no válido",
   "color_was_changed_to": "Se ha cambiado el color a {0}",
   "nsfw_enabled": "NSFW habilitado",
   "nsfw_disabled": "NSFW deshabilitado",

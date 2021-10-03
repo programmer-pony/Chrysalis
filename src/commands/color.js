@@ -22,7 +22,11 @@ module.exports = {
         if (!requestedColor.startsWith('#')) requestedColor = `#${requestedColor}`;
         const embed = new MessageEmbed()
         .setTitle(lang.change_color_to.replace('{0}', requestedColor))
-        .setColor(requestedColor)
+        try {
+          embed.setColor(requestedColor);
+        } catch (e) {
+          return message.reply(lang.invalid_color);
+        }
         message.channel.send({embeds:[embed]}).then(confMsg => {
           confMsg.react("✅");
           confMsg.react("❌");

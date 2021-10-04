@@ -318,7 +318,11 @@ async function runCommand(message) {
         if (!message.deleted && message.channel.permissionsFor(client.user.id).has('MANAGE_MESSAGES')) message.delete();
       } else {
         const color = await getColor(message.guild.id);
-				if (cmd.name!='clean') await message.channel.sendTyping();
+				if (cmd.name!='clean') try {
+					await message.channel.sendTyping();
+				} catch (e) {
+					// Discord API is down
+				}
         cmd.run(client, message, command, args, prefix, color, lang);
       }
     }

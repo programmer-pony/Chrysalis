@@ -435,10 +435,10 @@ async function sendHelp(message) {
 	const embed = new MessageEmbed()
 		.setTitle('Chrysalis')
 		.setThumbnail(client.user.displayAvatarURL())
-		.setDescription(`[${lang.invite_the_bot}](https://discord.com/api/oauth2/authorize?client_id=797161820594634762&permissions=8&scope=bot%20applications.commands) | [${lang.website}](https://giorgioproductions.es/Chrysalis/) | [${lang.support_server}](https://discord.gg/Vj2jYQKaJP)`)
+		.setDescription(`[${lang.invite_the_bot}](https://discord.com/api/oauth2/authorize?client_id=797161820594634762&permissions=8&scope=bot%20applications.commands) | [${lang.website}](https://lunitaroja.github.io/Chrysalis/) | [${lang.support_server}](https://discord.gg/Vj2jYQKaJP)`)
 		.setColor(await getColor(message.guild.id))
-		.addField('💻 GitHub','[Source Code](https://github.com/GiorgioProductions/Chrysalis)',true)
-		.addField(`💞 ${lang.support_the_project}`,'[Buy me a Coffe](https://ko-fi.com/giorgioproductions)',true)
+		.addField('💻 GitHub','[Source Code](https://github.com/LunitaRoja/Chrysalis)',true)
+		.addField(`💞 ${lang.support_the_project}`,'[Buy me a Coffe](https://ko-fi.com/programmerpony)',true)
 		.setFooter(`${lang.the_current_prefix_for_this_server_is} ${await getPrefix(message.guild.id)}`)
 	message.channel.send({embeds:[embed]});
 }

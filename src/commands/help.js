@@ -81,7 +81,7 @@ module.exports = {
           leftButton.setDisabled(true);
           rightButton.setDisabled(true);
           try {
-            sentEmbed.edit({embeds:[helpEmbed[currentPage].setFooter(lang.help_time_out)], components: [new MessageActionRow().addComponents([leftButton, rightButton])]});
+            await sentEmbed.edit({embeds:[helpEmbed[currentPage].setFooter(lang.help_time_out)], components: [new MessageActionRow().addComponents([leftButton, rightButton])]});
           } catch (e) {}
         }
       });

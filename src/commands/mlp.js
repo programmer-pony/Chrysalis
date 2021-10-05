@@ -59,7 +59,7 @@ module.exports = {
     const filter = (interaction) => interaction.user.id === message.member.user.id;
     const collector = sentEmbed.createMessageComponentCollector({filter,  time: 120000 });
     var currentPage = 1;
-    collector.on('collect', (i) => {
+    collector.on('collect', async (i) => {
       if (i.customId == 'left') {
         if (currentPage > 0) currentPage--;
         leftButton.setDisabled(currentPage == 1);
@@ -69,13 +69,17 @@ module.exports = {
         rightButton.setDisabled(currentPage == seasonEmbed.length - 1);
         leftButton.setDisabled(false);
       }
-      sentEmbed.edit({embeds:[seasonEmbed[currentPage]], components: [new MessageActionRow().addComponents([leftButton, rightButton])]}).then(i.deferUpdate());
+      try {
+        await sentEmbed.edit({embeds:[seasonEmbed[currentPage]], components: [new MessageActionRow().addComponents([leftButton, rightButton])]}).then(i.deferUpdate());
+      } catch (e) {}
     });
-    collector.on('end', (collected, reason) => {
+    collector.on('end', async (collected, reason) => {
       if (reason == 'time') {
         leftButton.setDisabled(true);
         rightButton.setDisabled(true);
-        sentEmbed.edit({embeds:[seasonEmbed[currentPage].setFooter(`${seasonEmbed[currentPage].footer.text}\n${lang.help_time_out}`)], components: [new MessageActionRow().addComponents([leftButton, rightButton])]});
+        try {
+          sentEmbed.edit({embeds:[seasonEmbed[currentPage].setFooter(`${seasonEmbed[currentPage].footer.text}\n${lang.help_time_out}`)], components: [new MessageActionRow().addComponents([leftButton, rightButton])]});
+        } catch (e) {}
       }
     });
 

@@ -134,8 +134,8 @@
       "love": ["love {utente 1} {utente 2 (opzionale)}", "Verifica la compatibilità tra due utenti."],
       "boop": ["boop {utente}", "Boop un'utente."],
       "hug": ["hug {utente}", "Abbraccia un'utente."],
-      "booru": ["booru {query (optional)}", "Invia un'immagine SFW da Manebooru. Puoi usare termini di ricerca."],
-      "clop": ["clop {query (optional)}", "Invia un'immagine NSFW da Manebooru. Puoi usare termini di ricerca. Solo può essere usato in un canale NSFW.","NSFW"],
+      "booru": ["booru {ricerca (opzionale)}", "Invia un'immagine SFW da Manebooru. Puoi usare termini di ricerca."],
+      "clop": ["clop {ricerca (opzionale)}", "Invia un'immagine NSFW da Manebooru. Puoi usare termini di ricerca. Solo può essere usato in un canale NSFW.","NSFW"],
       "mlp": ["mlp", "Torrent episodi MLP"]
     },
     "admin": [
@@ -194,7 +194,7 @@
   "bulk_delete_two_weeks": "Messaggi più vecchie di due semane non può essere eliminato.",
   "bulk_delete_missing_permissions": "Non ho i permissi necessari per ne elimnare in questo canale.",
   "bulk_delete_max_100": "Solo puoi elimnare meno che 100 messaggi.",
-  "no_images_found": "Impossibile trovare immagini corrispondenti a quella query.",
+  "no_images_found": "Impossibile trovare immagini corrispondenti a quella ricerca.",
   "jump_to_moment": "Passa al momento",
   "the_current_prefix_is": "Il prefisso attuale è **{0}**",
   "the_current_prefix_for_this_server_is": "Il prefisso attuale per questo server è",

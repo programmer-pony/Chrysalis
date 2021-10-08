@@ -12,7 +12,7 @@
         {
           "name": "utente",
           "type": "USER",
-          "description": "The user whose avatar you want to be sent."
+          "description": "L'utente di cui vuoi inviare l'avatar"
         }
       ]
     },
@@ -23,7 +23,7 @@
         {
           "name": "utente",
           "type": "USER",
-          "description": "The user you want to display info of."
+          "description": "L'utente di cui vuoi mostrare l'informazione."
         }
       ]
     },
@@ -34,7 +34,7 @@
         {
           "name": "ruolo",
           "type": "ROLE",
-          "description": "The role to display info of.",
+          "description": "Il ruolo di cui vuoi mostrare l'informazione.",
           "required": true
         }
       ]
@@ -50,7 +50,7 @@
         {
           "name": "emoji",
           "type": "STRING",
-          "description": "The emoji you want to convert to an image.",
+          "description": "L'emoji di cui vuoi cambiare in un'immagine ",
           "required": true
         }
       ]
@@ -62,13 +62,13 @@
         {
           "name": "amante1",
           "type": "USER",
-          "description": "First member of the couple.",
+          "description": "Primo membro della coppia.",
           "required": true
         },
         {
           "name": "amante2",
           "type": "USER",
-          "description": "Second member of the couple.",
+          "description": "Secondo membro della coppia.",
           "required": true
         }
       ]
@@ -80,7 +80,7 @@
         {
           "name": "utente",
           "type": "USER",
-          "description": "The user you want to boop.",
+          "description": "L'utente di cui vuoi fare un boop.",
           "required": true
         }
       ]
@@ -92,7 +92,7 @@
         {
           "name": "utente",
           "type": "USER",
-          "description": "The user you want to hug.",
+          "description": "L'utente di cui vuoi abbracciare.",
           "required": true
         }
       ]
@@ -104,7 +104,7 @@
         {
           "name": "tags",
           "type": "STRING",
-          "description": "Tags to search (separated by commas)."
+          "description": "Parola chiave da ricercare (separare con virgole)."
         }
       ]
     },
@@ -115,7 +115,7 @@
         {
           "name": "tags",
           "type": "STRING",
-          "description": "Tags to search (separated by commas)."
+          "description": "Parola chiave da ricercare (separare con virgole)."
         }
       ]
     },

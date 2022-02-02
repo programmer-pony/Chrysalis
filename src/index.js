@@ -327,8 +327,7 @@ async function boostEmbed(newMember) {
 async function createGuild(guild, rsc) {
 	let db = await connectToDatabase();
 	let guilds = db.db('chrysalis').collection('guilds');
-	let guildo = await guilds.findOne({id: guild.id});
-	if (!guildo) {
+	if (!(await guilds.findOne({id: guild.id}))) {
 		await guilds.insertOne({
 			id: guild.id,
 			lang: 'en',
@@ -501,12 +500,12 @@ async function addVoiceXP(state) {
 async function getGuildInfo(guild) {
 	let db = await connectToDatabase();
 	let guilds = db.db('chrysalis').collection('guilds');
-	let guildo = await guilds.findOne({id: guild.id});
-	if (!guildo) {
+	let guildInfo = await guilds.findOne({id: guild.id});
+	if (!guildInfo) {
 		await createGuild(guild, false);
-		guildo = await guilds.findOne({id: guild.id});
+		guildInfo = await guilds.findOne({id: guild.id});
 	}
-	let modules = guildo.modules;
+	let modules = guildInfo.modules;
 	let fixedModules = modules.filter(m => {
 		return m !== null;
 	});
@@ -532,7 +531,7 @@ async function getGuildInfo(guild) {
 	}
 	await guilds.updateOne({id: guild.id},{ $set: { modules: modules}});
 	db.close();
-	return guildo;
+	return guildInfo;
 }
 
 function highlight(s) { return `\u001b[47m\u001b[30m${s}\u001b[49m\u001b[39m`; }

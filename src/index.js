@@ -150,7 +150,7 @@ client.on('interactionCreate', async (i) => {
 	// Role menu
 	if (i.customId.startsWith('role-')) {
 		if (!i.guild.me.permissions.has('MANAGE_ROLES')) return;
-		i.deferUpdate();
+		await i.deferUpdate().catch(r=>{return});
 		let roleID = i.customId.replace('role-', '');
 		await i.member.fetch(true);
 		if (i.guild.me.roles.highest.position < i.guild.roles.cache.get(roleID).position) {
@@ -163,9 +163,8 @@ client.on('interactionCreate', async (i) => {
 	}
 
 	// Delete inappropriate images
-	if (i.customId.startsWith('delete')) i.message.delete().catch(r=>{}); // Deprecated
 	if (i.customId.startsWith('report')) {
-		await i.deferReply({ephemeral:true});
+		await i.deferReply({ephemeral:true}).catch(r=>{return});
 		let args = i.customId.split('-');
 		let reportURL = args[1];
 		let commandMessage = args[2];
@@ -233,10 +232,8 @@ async function runSlashCommand(i) {
 		else if (!i.member.permissions.has('ADMINISTRATOR')) return;
 		if (restricted) return i.reply({content:lang.wrong_channel,ephemeral:true}).catch(r=>{});
 		else {
-			try {
-				await i.deferReply({ephemeral:cmd.ephemeral});
-				cmd.run(client, i, command, args, lang, guildInfo);
-			} catch (e) {} // Unknown interaction
+			await i.deferReply({ephemeral:cmd.ephemeral}).catch(r=>{return});
+			cmd.run(client, i, command, args, lang, guildInfo);
 		}
 	}
 }

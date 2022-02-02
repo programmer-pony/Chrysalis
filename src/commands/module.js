@@ -32,9 +32,9 @@ module.exports = {
   run: async (client, message, command, args, lang, guildInfo) => {
 
     // Valid modules embed
-    let vmembed = new MessageEmbed().setDescription(validModules.join('\n')).setTitle(lang.valid_modules).setColor(guildInfo.color);
+    let vmembed = new MessageEmbed().setDescription(validModules.map(m => `[${m}](https://chrysalis-docs.programmerpony.com${guildInfo.lang == 'es' ? '/es/' : '/'}modules/${m}.html)`).join('\n')).setTitle(lang.valid_modules).setColor(guildInfo.color);
 
-    let requestedModule = args[0]//.toLowerCase();
+    let requestedModule = args[0].toLowerCase();
     if (!requestedModule) return message.channel.send({embeds:[vmembed]});
     if (validModules.indexOf(requestedModule) == -1) return message.channel.send({embeds:[vmembed]});
 

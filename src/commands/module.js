@@ -27,7 +27,7 @@ const validModules = defaultModules.map(m => m.name);
 
 module.exports = {
   name: 'module',
-  alias: ['modules','editmodule','config','enable','disable'],
+  alias: ['modules','editmodule','config','enable','disable','reset'],
   admin: true,
   run: async (client, message, command, args, lang, guildInfo) => {
 
@@ -35,10 +35,10 @@ module.exports = {
     let vmembed = new MessageEmbed().setDescription(validModules.map(m => `[${m}](https://chrysalis-docs.programmerpony.com${guildInfo.lang == 'es' ? '/es/' : '/'}modules/${m}.html)`).join('\n')).setTitle(lang.valid_modules).setColor(guildInfo.color);
 
     let requestedModule = args[0] ? args[0].toLowerCase() : null;
-    if (!requestedModule) return message.channel.send({embeds:[vmembed]});
-    if (validModules.indexOf(requestedModule) == -1) return message.channel.send({embeds:[vmembed]});
+    if (!requestedModule || validModules.indexOf(requestedModule) == -1) return message.channel.send({embeds:[vmembed]});
 
-    if (command == 'enable' || command == 'disable') return switchModule(message, requestedModule, command == 'enable', guildInfo.color, lang);
+    if (command == 'enable' || command == 'disable') return switchModule(message, requestedModule, command == 'enable', guildInfo, lang);
+    if (command == 'reset') return resetModule(message, requestedModule, guildInfo, lang);
 
     let action = args[1];
     if (!action) return message.channel.send({embeds: [await moduleInfo(message, requestedModule, guildInfo, lang)]});
@@ -46,7 +46,7 @@ module.exports = {
     switch (action) {
       case 'enable':
       case 'disable':
-        switchModule(message, requestedModule, action == 'enable', guildInfo.color, lang);
+        switchModule(message, requestedModule, action == 'enable', guildInfo, lang);
         break;
       case 'reset':
         resetModule(message, requestedModule, guildInfo, lang);
@@ -59,22 +59,14 @@ module.exports = {
   }
 }
 
-async function switchModule(message, modulearg, enable, color, lang) {
+async function switchModule(message, requestedModule, enable, guildInfo, lang) {
   // Enables or disables a module
-  let db = await connectToDatabase();
-  let guilds = db.db('chrysalis').collection('guilds');
-  let guild = await guilds.findOne({id: message.guild.id});
-  let modules = guild.modules;
-  let desiredModule = modules.find((c) => c.name == modulearg);
-  if (desiredModule) {
-    if (modulearg==='boost') desiredModule.announce = enable;
-    else desiredModule.enabled = enable;
-  }
-  else modules.push(defaultModules.find((c) => c.name == modulearg));
-  await guilds.updateOne({id: message.guild.id},{ $set: { modules: modules}});
-  db.close();
-  message.channel.send((enable ? lang.module_enabled : lang.module_disabled).replace('{0}', modulearg));
-  await reloadSlashCommands(message.client, message.guild, guild);
+  message.channel.send((enable ? lang.module_enabled : lang.module_disabled).replace('{0}', requestedModule));
+  let targetModule = guildInfo.modules.find((c) => c.name == requestedModule);
+  if ((requestedModule === 'boost' ? targetModule.announce : targetModule.enabled) == enable) return; // Do not update database if nothing will change
+  targetModule[requestedModule === 'boost' ? 'announce' : 'enabled'] = enable;
+  await update(requestedModule, message, guildInfo, lang);
+  await reloadSlashCommands(message.client, message.guild, guildInfo);
 }
 
 async function moduleInfo(message, requestedModule, guildInfo, lang) {
@@ -102,13 +94,7 @@ async function moduleInfo(message, requestedModule, guildInfo, lang) {
       case 'object':
         if (Array.isArray(moduleObj[key])) {
           if (!moduleObj[key].length) embed.addField(key, '[]');
-          else if (key.toLowerCase().endsWith('channels')) {
-            let channels = JSON.parse(JSON.stringify(moduleObj[key])); // Make copy instead of reference
-            for (let key of Object.keys(channels)) {
-              channels[key] = `<#${channels[key]}>`
-            }
-            embed.addField(key, channels.join('\n'));
-          }
+          else if (key.toLowerCase().endsWith('channels')) embed.addField(key, `<#${moduleObj[key].join('>\n<#')}>`);
           else embed.addField(key, moduleObj[key].join('\n'));
         }
         break;

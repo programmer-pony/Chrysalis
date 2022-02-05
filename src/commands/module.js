@@ -121,7 +121,7 @@ async function checkAction(message, requestedModule, targetKey, guildInfo, args,
 
   let moduleObj = guildInfo.modules.find((c) => c.name == requestedModule);
   let key = Object.keys(moduleObj).find(i => i == targetKey);
-  if (!key) return message.reply(lang.module_property_not_found);
+  if (!key || (key == 'name' || key == 'users')) return message.reply(lang.module_property_not_found);
   if (args.length <= 2) return message.reply(lang.please_specify_a_new_value);
   switch (typeof moduleObj[key]) {
     case 'number':

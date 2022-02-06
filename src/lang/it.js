@@ -257,7 +257,7 @@ module.exports = {
   },
   defaultValues: {
     boost: {
-      message: '**{0} ha appena potenziato il server!**',
+      message: '**{user} ha appena potenziato il server!**',
       title: 'Grazie mille per aver poteniziato il server!',
       description: '<a:NitroBoost:939892339369971832> Goditi il tuo nuovo ruolo! <a:NitroBoost:939892339369971832>'
     },

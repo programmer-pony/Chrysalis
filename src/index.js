@@ -38,6 +38,7 @@ const path = require('path');
 const fs = require('fs');
 const reloadSlashCommands = require('./utils/reloadSlashCommands.js');
 const announceLevelUp = require('./utils/embed/announceLevelUp.js');
+const boostEmbed = require('./utils/embed/boostEmbed.js');
 const connectToDatabase = require('./utils/connectToDatabase.js');
 const defaultModules = require('./defaultModules.js');
 const onCooldown = new Set();
@@ -83,7 +84,7 @@ client.on('messageUpdate', async (oldMessage, newMessage) => {
 	}
 });
 
-client.on('messageDelete', (message) => {
+client.on('messageDelete', async (message) => {
 	if (message.author.id == client.user.id) return;
 	if (message.guild) sendDeletedMessage(message);
 });
@@ -122,15 +123,15 @@ client.on('guildMemberRemove', async (member) => {
 	}
 });
 
-client.on('guildMemberUpdate', (oldMember, newMember) => {
-	if (!oldMember.premiumSinceTimestamp && newMember.premiumSinceTimestamp) boostEmbed(newMember);
+client.on('guildMemberUpdate', async (oldMember, newMember) => {
+	if (!oldMember.premiumSinceTimestamp && newMember.premiumSinceTimestamp) boostEmbed(newMember, await getGuildInfo(newMember.guild));
 });
 
 client.on('guildBanAdd', async (ban) => {
 	if (!banned.has(ban.user.id)) banned.add(ban.user.id);
 });
 
-client.on('voiceStateUpdate', (oldState, newState) => {
+client.on('voiceStateUpdate', async (oldState, newState) => {
 	if (newState.member.user.bot) return;
 	if ((newState.channel?.id && !oldState.channel?.id) || (newState.channel?.guild?.id && oldState.channel?.guild?.id != newState.channel?.guild?.id)) {
 		// User joins a voice channel (not switch)
@@ -300,25 +301,6 @@ async function sendHelp(message, guildInfo) {
 		.addField(`💞 ${lang.support_the_project}`,'[Buy me a Coffee](https://ko-fi.com/programmerpony)',true)
 		.setFooter({text: `${lang.the_current_prefix_for_this_server_is} ${guildInfo.prefix}`})
 	message.channel.send({embeds:[embed]});
-}
-
-async function boostEmbed(newMember) {
-	let guildInfo = await getGuildInfo(newMember.guild);
-	let lang = require(`./lang/${guildInfo.lang}.js`);
-	let modules = guildInfo.modules;
-	let boost = modules.find((c) => c.name == 'boost');
-	if (boost.announce && boost.channel) {
-		let boosterRole = newMember.guild.roles.premiumSubscriberRole;
-		let embedColor = boosterRole?.color || '#db6de2'; // Pink
-		let emoji = client.emojis.cache.find(emoji => emoji.name == 'NitroBoost');
-		let embed = new MessageEmbed()
-			.setTitle(`${lang.boost_title}`)
-			.setDescription(`<a:${emoji.name}:${emoji.id}> ${lang.boost_description} <a:${emoji.name}:${emoji.id}>`)
-			.setThumbnail(newMember.user.displayAvatarURL())
-			.setColor(embedColor);
-		let channel = client.channels.cache.find(channel => channel.id == boost.channel);
-		if (channel) channel.send({content:`${lang.boost_message.replace('{0}',newMember.user)}`,embeds:[embed]});
-  }
 }
 
 async function createGuild(guild, rsc) {

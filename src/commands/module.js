@@ -63,8 +63,8 @@ async function switchModule(message, requestedModule, enable, guildInfo, lang) {
   // Enables or disables a module
   message.channel.send((enable ? lang.module_enabled : lang.module_disabled).replace('{0}', requestedModule));
   let targetModule = guildInfo.modules.find((c) => c.name == requestedModule);
-  if ((requestedModule === 'boost' ? targetModule.announce : targetModule.enabled) == enable) return; // Do not update database if nothing will change
-  targetModule[requestedModule === 'boost' ? 'announce' : 'enabled'] = enable;
+  if (targetModule.enabled == enable) return; // Do not update database if nothing will change
+  targetModule.enabled = enable;
   await update(requestedModule, message, guildInfo, lang);
   await reloadSlashCommands(message.client, message.guild, guildInfo);
 }

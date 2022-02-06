@@ -247,13 +247,20 @@ module.exports = {
       ['clean {número de mensajes}', 'Elimina un puñado de mensajes. No puedes eliminar mensajes que sean de hace más de dos semanas.'],
       ['enable {módulo}', 'Activa un módulo.'],
       ['disable {módulo}', 'Desactiva un módulo.'],
-      ['module {módulo}', 'Edita un módulo.'],
+      ['config {módulo}', 'Edita un módulo.'],
+      ['reset {módulo}', 'Reinicia un módulo.'],
       ['rolemenu {roleID} {roleID} {roleID}...', 'Crea un menú de roles. Cada argumento es la ID de un rol.'],
       ['welcome {usuario}', 'Muestra cómo se vería la tarjeta de bienvenida del usuario mencionado.'],
+      ['boost {usuario}', 'Muestra cómo se verá el mensaje cuando un usuario mejore el servidor.'],
       ['setxp {usuario} {xp}', 'Establece la cantidad de experiencia que tiene un usuario.']
     ]
   },
   defaultValues: {
+    boost: {
+      message: '**¡{0} ha boosteado el servidor!**',
+      title: '¡Muchas gracias por boostear el servidor!',
+      description: '<a:NitroBoost:939892339369971832> ¡Disfruta de tu rol exclusivo! <a:NitroBoost:939892339369971832>'
+    },
     welcome: {
       message: '¡Bienvenid@ a **{guild}**! {user}'
     },
@@ -295,9 +302,6 @@ module.exports = {
   avatar: 'Avatar de {0}',
   no_new_words_added: 'No se han añadido palabras nuevas.',
   no_words_were_removed: 'No se ha eliminado ninguna palabra.',
-  boost_message: '**{0} ha boosteado el servidor!**',
-  boost_title: '¡Muchas gracias por boostear el servidor!',
-  boost_description: '¡Disfruta de tu rol exclusivo!',
   bulk_delete_two_weeks: 'No se pueden eliminar mensajes enviados hace más de dos semanas.',
   bulk_delete_missing_permissions: 'No tengo permiso para borrar mensajes en este canal.',
   bulk_delete_max_100: 'Solo puedes borar menos de 100 mensajes de golpe.',

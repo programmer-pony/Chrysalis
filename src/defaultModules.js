@@ -30,8 +30,11 @@ module.exports = [
   },
   {
     name: 'boost',
-    announce: false,
-    channel: ''
+    enabled: false,
+    channel: '',
+    message: 'default',
+    title: 'default',
+    description: 'default'
   },
   {
     name: 'suggestions',

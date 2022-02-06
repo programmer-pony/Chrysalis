@@ -247,13 +247,20 @@ module.exports = {
       ['clean {numero di messaggi}', 'Elimina i messaggi in blocco. Messaggi più vecchie di due semane non può essere eliminato.'],
       ['enable {modulo}', 'Abilita un modulo.'],
       ['disable {modulo}', 'Disabilita un modulo.'],
-      ['module {modulo}', 'Modifica un modulo.'],
+      ['config {modulo}', 'Modifica un modulo.'],
+      ['reset {modulo}', 'Ripristina un modulo.'],
       ['rolemenu {ruoloID} {ruoloID} {ruoloID}...', `Crea un rolemenu. Ogni argomenti è un'ID di un ruolo.`],
       ['welcome {utene}', `Mostra un'anteprima della carta di benvenuto per l'utente menzionato.`],
+      ['boost {utene}', `Mostra un'anteprima della carta di potenziare il server.`], // Better translation needed
       ['setxp {utente} {xp}', `Imposta la quantità di xp che un'utente ha.`]
     ]
   },
   defaultValues: {
+    boost: {
+      message: '**{0} ha appena potenziato il server!**',
+      title: 'Grazie mille per aver poteniziato il server!',
+      description: '<a:NitroBoost:939892339369971832> Goditi il tuo nuovo ruolo! <a:NitroBoost:939892339369971832>'
+    },
     welcome: {
       message: 'Benvenuto a **{guild}**! {user}'
     },
@@ -295,9 +302,6 @@ module.exports = {
   avatar: 'Avatar da {0}',
   no_new_words_added: 'Nessune parole erano aggiunti.',
   no_words_were_removed: 'Nessune parole erano eliminato.',
-  boost_message: '**{0} ha appena potenziato il server!**',
-  boost_title: 'Grazie mille per aver poteniziato il server!',
-  boost_description: 'Goditi il tuo nuovo ruolo!',
   bulk_delete_two_weeks: 'Messaggi più vecchie di due semane non può essere eliminato.',
   bulk_delete_missing_permissions: 'Non ho i permissi necessari per ne elimnare in questo canale.',
   bulk_delete_max_100: 'Solo puoi elimnare meno che 100 messaggi.',

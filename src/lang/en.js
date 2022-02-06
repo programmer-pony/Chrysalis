@@ -247,13 +247,20 @@ module.exports = {
       ['clean {number of messages}', 'Bulk deletes messages. Messages older than two weeks can not be deleted.'],
       ['enable {module}', 'Enables a module.'],
       ['disable {module}', 'Disables a module.'],
-      ['module {module}', 'Edits a module.'],
+      ['config {module}', 'Edits a module.'],
+      ['reset {module}', 'Resets a module.'],
       ['rolemenu {roleID} {roleID} {roleID}...', 'Creates a role menu. Every argument is a role ID.'],
       ['welcome {user}', 'Shows a preview of the welcome card for the mentioned user.'],
+      ['boost {user}', 'Shows a preview of the boost card.'],
       ['setxp {user} {xp}', 'Sets the amount of XP that a user has.']
     ]
   },
   defaultValues: {
+    boost: {
+      message: '**{0} just boosted the server!**',
+      title: 'Thank you for boosting the server!',
+      description: '<a:NitroBoost:939892339369971832> Enjoy your exclusive role! <a:NitroBoost:939892339369971832>'
+    },
     welcome: {
       message: 'Welcome to **{guild}**! {user}'
     },
@@ -295,9 +302,6 @@ module.exports = {
   avatar: `{0}'s avatar`,
   no_new_words_added: 'No new words were added.',
   no_words_were_removed: 'No words were removed.',
-  boost_message: '**{0} just boosted the server!**',
-  boost_title: 'Thank you for boosting the server!',
-  boost_description: 'Enjoy your exclusive role!',
   bulk_delete_two_weeks: 'Messages older than 2 weeks can not be removed.',
   bulk_delete_missing_permissions: 'I do not have permission to delete messages in this channel.',
   bulk_delete_max_100: 'You can only remove less than 100 messages at once.',

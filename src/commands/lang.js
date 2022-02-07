@@ -23,13 +23,14 @@ const connectToDatabase = require('../utils/connectToDatabase.js');
 const path = require('path');
 const fs = require('fs');
 const langs = [];
+const validLangs = fs.readdirSync(path.resolve(__dirname, '../lang/')).filter((f) => f.endsWith('.js')).map(f => f.slice(0,f.indexOf('.js')));
 
 module.exports = {
   name: 'lang',
   alias: ['setlang','language','setlanguage'],
   admin: true,
+  validLangs: validLangs,
   run: (client, message, command, args, lang, guildInfo) => {
-    let validLangs = fs.readdirSync(path.resolve(__dirname, '../lang/')).filter((f) => f.endsWith('.js')).map(f => f.slice(0,f.indexOf('.js')));
     if (validLangs.indexOf(args[0])>-1) return changeLang(client, message, args[0]);
     for (l of validLangs) langs.push(`${l} (${require(`../lang/${l}.js`).meta.name})`);
     let embed = new MessageEmbed()

@@ -309,7 +309,7 @@ async function createGuild(guild, rsc) {
 	if (!(await guilds.findOne({id: guild.id}))) {
 		await guilds.insertOne({
 			id: guild.id,
-			lang: 'en',
+			lang: client.commands.get('lang').validLangs.indexOf(guild.preferredLocale.slice(0,2)) >= 0 ? guild.preferredLocale.slice(0,2) : 'en',
 			prefix: 'c!',
 			color: '#3e804c',
 			modules: defaultModules

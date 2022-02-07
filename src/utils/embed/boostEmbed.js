@@ -25,11 +25,11 @@ module.exports = async (member, guildInfo, channel) => {
 	let boost = modules.find((c) => c.name == 'boost');
 	if (boost.enabled && boost.channel) {
 		let embed = new MessageEmbed()
-			.setTitle((boost.title !== 'default' ? boost.title : lang.defaultValues.boost.title).replace('{user}',member.user.username))
-			.setDescription((boost.description !== 'default' ? boost.description : lang.defaultValues.boost.description).replace('{user}',member.user))
+			.setTitle((boost.title !== 'default' ? boost.title : lang.defaultValues.boost.title).replaceAll('{user}',member.user.username).replaceAll('{boostCount}',member.guild.premiumSubscriptionCount).replaceAll('{tier}',member.guild.premiumTier))
+			.setDescription((boost.description !== 'default' ? boost.description : lang.defaultValues.boost.description).replaceAll('{user}',member.user).replaceAll('{boostCount}',member.guild.premiumSubscriptionCount).replaceAll('{tier}',member.guild.premiumTier))
 			.setThumbnail(member.user.displayAvatarURL())
 			.setColor(member.guild.roles.premiumSubscriberRole?.color || '#db6de2' /* Pink */);
 		channel ??= member.client.channels.cache.find(channel => channel.id == boost.channel);
-		if (channel) channel.send({content:(boost.message !== 'default' ? boost.message : lang.defaultValues.boost.message).replace('{user}',member.user),embeds:[embed]}).catch(r=>{});
+		if (channel) channel.send({content:(boost.message !== 'default' ? boost.message : lang.defaultValues.boost.message).replaceAll('{user}',member.user).replaceAll('{boostCount}',member.guild.premiumSubscriptionCount).replaceAll('{tier}',member.guild.premiumTier),embeds:[embed]}).catch(r=>{});
   }
 }

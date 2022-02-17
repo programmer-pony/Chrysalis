@@ -297,7 +297,7 @@ async function sendHelp(message, guildInfo) {
 		.setThumbnail(client.user.displayAvatarURL())
 		.setDescription(`[${lang.invite_the_bot}](https://discord.com/api/oauth2/authorize?client_id=797161820594634762&permissions=8&scope=bot%20applications.commands) | [${lang.website}](https://chrysalis.programmerpony.com) | [${lang.support_server}](https://discord.gg/Vj2jYQKaJP)`)
 		.setColor(guildInfo.color)
-		.addField('💻 GitLab','[Source Code](https://gitlab.com/programmerpony/Chrysalis)',true)
+		.addField(`💻 ${lang.source_code}`,'[GitLab](https://gitlab.com/programmerpony/Chrysalis) | [GitHub](https://github.com/programmer-pony/Chrysalis)',true)
 		.addField(`💞 ${lang.support_the_project}`,'[Buy me a Coffee](https://ko-fi.com/programmerpony)',true)
 		.setFooter({text: `${lang.the_current_prefix_for_this_server_is} ${guildInfo.prefix}`})
 	message.channel.send({embeds:[embed]});

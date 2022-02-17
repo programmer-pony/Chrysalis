@@ -351,6 +351,7 @@ module.exports = {
   invite_the_bot: 'Invita al bot',
   website: 'Página web',
   support_server: 'Servidor de soporte',
+  source_code: 'Código fuente',
   support_the_project: 'Apoya el proyecto',
   unkown_role: 'No he podido encontrar ese rol.',
   role_id: 'ID del rol',

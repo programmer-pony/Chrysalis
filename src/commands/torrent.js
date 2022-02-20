@@ -32,19 +32,20 @@ module.exports = {
       let feed = await parser.parseURL('https://yayponies.no/videos/rss/1it.rss');
       feed.items.forEach(item => {
         // Add episodes to seasons
-        let currentSeason = parseInt(item.title.slice(item.title.indexOf('0'),item.title.indexOf('0')+2));
-        let currentEpisode = parseInt(item.title.slice(item.title.indexOf('x')+1,item.title.indexOf('x')+3));
+        let currentSeason = +item.title.slice(item.title.indexOf('0'),item.title.indexOf('0')+2);
+        let currentEpisode = +item.title.slice(item.title.indexOf('x')+1,item.title.indexOf('x')+3);
         season[currentSeason] ??= {episode:[]};
+        // Trixie is best pony
         season[currentSeason].episode[currentEpisode] = {
           title: item.title.slice(item.title.indexOf('0'),item.title.indexOf('|')),
           link: item.link
-        }
+        };
       });
 
       // Create season embeds
       let seasonEmbed = [];
       for (s in season) {
-        if (!s) continue; // Ignore season 0
+        if (s==='0') continue;
         seasonEmbed[s] = new MessageEmbed()
           .setTitle(`${lang.season} ${s}`)
           .setColor(guildInfo.color)

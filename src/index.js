@@ -504,8 +504,8 @@ async function getGuildInfo(guild) {
 			delete m;
 			continue;
 		}
-		for (key of Object.keys(moduleModel)) if (!m.hasOwnProperty(key)) m[key] = moduleModel[key];
-		for (key of Object.keys(m)) if (!moduleModel.hasOwnProperty(key)) {
+		for (key in moduleModel) if (!(key in m)) m[key] = moduleModel[key];
+		for (key in m) if (!(key in moduleModel)) {
 			delete m[key];
 			continue;
 		}

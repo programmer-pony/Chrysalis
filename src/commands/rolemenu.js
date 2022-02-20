@@ -35,13 +35,9 @@ module.exports = {
     args = [...new Set(args)];
     let roles = [];
 
-    for (role of args.keys()) {
-      try {
-        roles.push(message.guild.roles.cache.get(args[role]).id);
-      } catch (e) {
-        // Skip invalid role
-      }
-    }
+    for (role in args) try {
+      roles.push(message.guild.roles.cache.get(args[role]).id);
+    } catch (e) { /* Skip invalid role */ }
 
     if (roles.length == 0) return message.channel.send({embeds:[helpEmbed]});
     if (roles.length > 25) return message.reply(lang.you_can_only_add_up_to_25_roles_to_the_menu);

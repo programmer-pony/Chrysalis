@@ -43,7 +43,7 @@ module.exports = {
 
       // Create season embeds
       let seasonEmbed = [];
-      for (s of Object.keys(season)) {
+      for (s in season) {
         if (!s) continue; // Ignore season 0
         seasonEmbed[s] = new MessageEmbed()
           .setTitle(`${lang.season} ${s}`)
@@ -61,7 +61,7 @@ module.exports = {
       let menu = new MessageSelectMenu()
         .setCustomId('torrent')
         .setPlaceholder(`${lang.seasons}:`); // For mobile
-      for (s of Object.keys(season)) {
+      for (s in season) {
         if (s==='0') continue;
         menu.addOptions({
           label: `${lang.season} ${s}`,

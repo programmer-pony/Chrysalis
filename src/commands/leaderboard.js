@@ -32,8 +32,8 @@ module.exports = {
       .setThumbnail(message.guild.iconURL({size:1024}));
     let description = '';
     let highscores = rank.users.sort((a, b) => (a.xp < b.xp) ? 1 : -1);
-    for (i of highscores.slice(0,10).keys()) {
-      description+=`${getNumberEmoji(i+1)} ► <@!${highscores[i].id}>
+    for (i in highscores.slice(0,10)) {
+      description+=`${getNumberEmoji(+i+1)} ► <@!${highscores[i].id}>
                     ${lang.level}: \`${Math.trunc((Math.sqrt(5)/5)*Math.sqrt(highscores[i].xp))}\`
                     XP: \`${highscores[i].xp}\`\n`;
     }

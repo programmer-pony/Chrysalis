@@ -76,7 +76,7 @@ async function moduleInfo(message, requestedModule, guildInfo, lang) {
     .setURL(`https://chrysalis-docs.programmerpony.com${guildInfo.lang == 'es' ? '/es/' : '/'}modules/${requestedModule}.html`)
     .setFooter({text:lang.check_documentation})
     .setColor(guildInfo.color);
-  for (key of Object.keys(moduleObj)) {
+  for (key in moduleObj) {
     if (key == 'name' || key == 'users') continue;
     switch (typeof moduleObj[key]) {
       case 'boolean':
@@ -103,11 +103,10 @@ async function moduleInfo(message, requestedModule, guildInfo, lang) {
   return embed;
 }
 
-async function checkAction(message, requestedModule, targetKey, guildInfo, args, lang) {
+async function checkAction(message, requestedModule, key, guildInfo, args, lang) {
 
   let moduleObj = guildInfo.modules.find((c) => c.name == requestedModule);
-  let key = Object.keys(moduleObj).find(i => i == targetKey);
-  if (!key || (key == 'name' || key == 'users')) return message.reply(lang.module_property_not_found);
+  if (!(key in moduleObj) || (key === 'name' || key === 'users')) return message.reply(lang.module_property_not_found);
   if (args.length <= 2) return message.reply(lang.please_specify_a_new_value);
   switch (typeof moduleObj[key]) {
     case 'number':
@@ -130,9 +129,9 @@ async function checkAction(message, requestedModule, targetKey, guildInfo, args,
       args.shift();
       if (key.toLowerCase().endsWith('channels')) {
         await message.guild.channels.fetch();
-        for (let ckey of Object.keys(args)) {
-          if (args[ckey].startsWith('<#')) args[ckey] = args[ckey].substring(2,args[ckey].length-1);
-          if (!message.guild.channels.cache.get(args[ckey])) return message.reply(lang.invalid_channel);
+        for (let c in args) {
+          if (args[c].startsWith('<#')) args[c] = args[c].slice(2,-1);
+          if (!message.guild.channels.cache.get(args[c])) return message.reply(lang.invalid_channel);
         }
       }
       moduleObj[key] = args;

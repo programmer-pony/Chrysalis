@@ -50,7 +50,7 @@ client.on('ready', async () => {
 	await registerCommands();
 	setInterval((() => { client.user.setPresence(presence); }), 1800000); // Refresh presence every half an hour so it doesn't vanish
 	let totalMembers = 0;
-	for (guild of client.guilds.cache.values()) totalMembers+=guild.members.cache.size;
+	for (guild of client.guilds.cache.values()) totalMembers+=guild.memberCount;
 	console.log(highlight(`${client.user.username} is ready on ${client.guilds.cache.size} server${client.guilds.cache.size !== 1 ? 's' : ''} with a total of ${totalMembers} members!`));
 });
 

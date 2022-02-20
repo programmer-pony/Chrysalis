@@ -249,9 +249,9 @@ async function registerCommands() {
 		client.commands.set(commandfile.name, commandfile);
 		console.log(`${jsfile} loaded`);
 	}
-	for (guild of client.guilds.cache) {
-		let guildInfo = await getGuildInfo(guild[1]);
-		await reloadSlashCommands(client, guild[1], guildInfo);
+	for (guild of client.guilds.cache.values()) {
+		let guildInfo = await getGuildInfo(guild);
+		await reloadSlashCommands(client, guild, guildInfo);
 	}
 }
 
@@ -275,8 +275,8 @@ async function bannedWords(message, guildInfo) {
 		}
 		if (message.attachments.size>0) {
 			for (word of bannedwords.words) {
-				for (attachment of message.attachments) {
-					if (attachment[1].name.toLowerCase().includes(word.toLowerCase())) {
+				for (attachment of message.attachments.values()) {
+					if (attachment.name.toLowerCase().includes(word.toLowerCase())) {
 						try {
 							await message.delete();
 							if (message.member) await message.author.send(lang.message_deleted_dm);

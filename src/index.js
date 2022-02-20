@@ -49,7 +49,9 @@ client.on('ready', async () => {
 	console.log(highlight(`Bot started as ${client.user.tag}`));
 	await registerCommands();
 	setInterval((() => { client.user.setPresence(presence); }), 1800000); // Refresh presence every half an hour so it doesn't vanish
-	console.log(highlight(`${client.user.username} is ready on ${client.guilds.cache.size} server${client.guilds.cache.size != 1 ? 's' : ''}!`));
+	let totalMembers = 0;
+	for (guild of client.guilds.cache.values()) totalMembers+=guild.members.cache.size;
+	console.log(highlight(`${client.user.username} is ready on ${client.guilds.cache.size} server${client.guilds.cache.size !== 1 ? 's' : ''} with a total of ${totalMembers} members!`));
 });
 
 client.on('guildCreate', (guild) => {

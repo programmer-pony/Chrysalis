@@ -365,6 +365,7 @@ module.exports = {
   new_attachments: 'Allegati nuovi',
   message_edited: 'Messagio modificato',
   season: 'Stagione',
+  seasons: 'Stagione',
   movies: 'Film',
   torrent_footer: 'I episodi son scaricato come i torrent. Chrysalis consiglia di scaricarli con qBitTorrent. I link sono forniti da yayponies.no /)',
   error_fetching_episodes: `C'era un errore durante il recupero dei link. Per favore riprova più tardi.`,

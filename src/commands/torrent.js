@@ -17,7 +17,7 @@
 
 */
 
-const { MessageEmbed, MessageButton, MessageActionRow } = require('discord.js');
+const { MessageEmbed, MessageSelectMenu, MessageActionRow } = require('discord.js');
 const iconURL = 'https://yayponies.no/favicon-32x32.png';
 let Parser = require('rss-parser');
 let parser = new Parser();
@@ -31,6 +31,7 @@ module.exports = {
       let season = [];
       let feed = await parser.parseURL('https://yayponies.no/videos/rss/1it.rss');
       feed.items.forEach(item => {
+        // Add episodes to seasons
         let currentSeason = parseInt(item.title.slice(item.title.indexOf('0'),item.title.indexOf('0')+2));
         let currentEpisode = parseInt(item.title.slice(item.title.indexOf('x')+1,item.title.indexOf('x')+3));
         season[currentSeason] ??= {episode:[]};
@@ -40,6 +41,7 @@ module.exports = {
         }
       });
 
+      // Create season embeds
       let seasonEmbed = [];
       for (s of Object.keys(season)) {
         if (!s) continue; // Ignore season 0
@@ -55,58 +57,46 @@ module.exports = {
         seasonEmbed[s].setDescription(episodes);
       }
 
-      // Movies
+      // Select menu
+      let menu = new MessageSelectMenu()
+        .setCustomId('torrent')
+        .setPlaceholder(`${lang.seasons}:`); // For mobile
+      for (s of Object.keys(season)) {
+        if (s==='0') continue;
+        menu.addOptions({
+          label: `${lang.season} ${s}`,
+          value: s,
+          default: s==='1'
+        });
+      }
+
+      // Add movies too
       seasonEmbed[10] = new MessageEmbed()
         .setTitle(lang.movies)
         .setColor(guildInfo.color)
         .setFooter({text:lang.torrent_footer,iconURL:iconURL})
         .setDescription('[My Little Pony: The Movie](https://yayponies.no/videos/torrents/YP-1R-TheMovie.mkv.torrent)\n[My Little Pony: A New Generation](https://yayponies.no/videos/torrents/YP-1N-G5-ANewGeneration.mkv.torrent)');
+      menu.addOptions({
+        label: lang.movies,
+        value: '10'
+      });
 
-      let leftButton = new MessageButton()
-        .setStyle('SECONDARY')
-        .setLabel('<')
-        .setCustomId('left')
-        .setDisabled(true);
-      let rightButton = new MessageButton()
-        .setStyle('SECONDARY')
-        .setLabel('>')
-        .setCustomId('right');
-      let moviesButton = new MessageButton()
-        .setStyle('SECONDARY')
-        .setLabel(lang.movies)
-        .setCustomId('movies');
-      let sentEmbed = message.author ? await message.channel.send({embeds:[seasonEmbed[1]], components: [new MessageActionRow().addComponents([leftButton, rightButton, moviesButton])]}) : await message.editReply({embeds:[seasonEmbed[1]], components: [new MessageActionRow().addComponents([leftButton, rightButton, moviesButton])]});
+      // Send the message
+      let m = message.author ? await message.channel.send({embeds:[seasonEmbed[1]], components: [new MessageActionRow().addComponents([menu])]}) : await message.editReply({embeds:[seasonEmbed[1]], components: [new MessageActionRow().addComponents([menu])]});
       let filter = (interaction) => interaction.user.id === message.member.user.id;
-      let collector = sentEmbed.createMessageComponentCollector({filter,  time: 120000 });
-      let currentPage = 1;
+      let collector = m.createMessageComponentCollector({ filter, time: 120000 });
+      let index = 1;
       collector.on('collect', async (i) => {
-        switch (i.customId) {
-          case 'left':
-            if (currentPage) currentPage--;
-            leftButton.setDisabled(currentPage == 1);
-            rightButton.setDisabled(false);
-            moviesButton.setDisabled(false);
-            break;
-          case 'right':
-            if (currentPage < 10) currentPage++;
-            leftButton.setDisabled(false);
-            break;
-          case 'movies':
-            currentPage = 10;
-            break;
-        }
-        if (currentPage == 10) {
-          leftButton.setDisabled(false);
-          rightButton.setDisabled(true);
-          moviesButton.setDisabled(true);
-        }
-        await sentEmbed.edit({embeds:[seasonEmbed[currentPage]], components: [new MessageActionRow().addComponents([leftButton, rightButton, moviesButton])]}).then(i.deferUpdate()).catch(r=>{});
+        if (i.customId !== 'torrent') return;
+        if (index == i.values[0]) return await m.edit({}).catch(r=>{}); // You can re-select the already selected option on the mobile app for some reason
+        menu.options.find(o => o.value == index).default = false;
+        index = i.values[0];
+        menu.options.find(o => o.value == index).default = true;
+        await m.edit({embeds:[seasonEmbed[index]], components: [new MessageActionRow().addComponents([menu])]}).then(i.deferUpdate()).catch(r=>{});
       });
       collector.on('end', async (collected, reason) => {
         if (reason == 'time') {
-          leftButton.setDisabled(true);
-          rightButton.setDisabled(true);
-          await sentEmbed.edit({embeds:[seasonEmbed[currentPage].setFooter({text:`${seasonEmbed[currentPage].footer.text}\n${lang.help_time_out}`, iconURL:iconURL})], components: [new MessageActionRow().addComponents([leftButton, rightButton, moviesButton])]}).catch(r=>{});
+          await m.edit({embeds:[seasonEmbed[index].setFooter({text:`${seasonEmbed[index].footer.text}\n${lang.help_time_out}`, iconURL:iconURL})], components: []}).catch(r=>{});
         }
       });
     } catch (e) { return message.author ? message.reply({content:lang.error_fetching_episodes}) : message.editReply({content:lang.error_fetching_episodes}); }

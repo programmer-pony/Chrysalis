@@ -365,6 +365,7 @@ module.exports = {
   new_attachments: 'New attachments',
   message_edited: 'Message edited',
   season: 'Season',
+  seasons: 'Seasons',
   movies: 'Movies',
   torrent_footer: 'The episodes are downloaded as torrents. Chrysalis recommends downloading them using qBitTorrent, due to it not containing ads. Links are provided by yayponies.no /)',
   error_fetching_episodes: 'There was an error fetching the episodes. Please, try again later.',

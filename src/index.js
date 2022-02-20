@@ -156,13 +156,15 @@ client.on('interactionCreate', async (i) => {
 		await i.deferUpdate().catch(r=>{return});
 		let roleID = i.customId.replace('role-', '');
 		await i.member.fetch(true);
-		if (i.guild.me.roles.highest.position < i.guild.roles.cache.get(roleID).position) {
+		try {
+			if (!i.member.roles.cache.get(roleID)) await i.member.roles.add(roleID);
+			else await i.member.roles.remove(roleID);
+		} catch (e) {
 			let guildInfo = await getGuildInfo(i.guild);
 			let lang = require(`./lang/${guildInfo.lang}.js`);
-			return i.user.send(lang.chrysalis_role_too_low).catch(r=>{});
+			if (i.guild.me.roles.highest.position < i.guild.roles.cache.get(roleID).position) i.user.send(lang.chrysalis_role_too_low).catch(r=>{});
+			else i.user.send(lang.roles_managed_by_integrations_cannot_be_manually_assigned).catch(r=>{});
 		}
-		if (!i.member.roles.cache.get(roleID)) i.member.roles.add(roleID);
-		else i.member.roles.remove(roleID);
 	}
 
 	// Delete inappropriate images

@@ -345,6 +345,7 @@ module.exports = {
   you_can_only_add_up_to_25_roles_to_the_menu: 'You can only add up to 25 roles to the menu.',
   manage_roles_permission_required: 'Chrysalis needs the `MANAGE_ROLES` permission to use this command.',
   chrysalis_role_too_low: `Chrysalis' role is lower than the role you're requesting. Please, ask an admin to fix it.`,
+  roles_managed_by_integrations_cannot_be_manually_assigned: 'Roles managed by integrations cannot be manually assigned.',
   download_emoji: 'Download emoji',
   please_type_a_valid_channel: 'Please, type a valid channel.',
   invalid_channel: 'At least one of the channels you typed is invalid.',

@@ -152,7 +152,6 @@ client.on('interactionCreate', async (i) => {
 
 	// Role menu
 	if (i.customId.startsWith('role-')) {
-		if (!i.guild.me.permissions.has('MANAGE_ROLES')) return;
 		await i.deferUpdate().catch(r=>{return});
 		let roleID = i.customId.replace('role-', '');
 		await i.member.fetch(true);
@@ -162,8 +161,9 @@ client.on('interactionCreate', async (i) => {
 		} catch (e) {
 			let guildInfo = await getGuildInfo(i.guild);
 			let lang = require(`./lang/${guildInfo.lang}.js`);
-			if (i.guild.me.roles.highest.position < i.guild.roles.cache.get(roleID).position) i.user.send(lang.chrysalis_role_too_low).catch(r=>{});
-			else i.user.send(lang.roles_managed_by_integrations_cannot_be_manually_assigned).catch(r=>{});
+			if (!i.guild.me.permissions.has('MANAGE_ROLES')) await i.followUp({ content:lang.manage_roles_permission_required, ephemeral:true }).catch(r=>{});
+			else if (i.guild.me.roles.highest.position < i.guild.roles.cache.get(roleID).position) await i.followUp({ content:lang.chrysalis_role_too_low, ephemeral:true }).catch(r=>{});
+			else await i.followUp({ content: lang.roles_managed_by_integrations_cannot_be_manually_assigned, ephemeral: true }).catch(r=>{});
 		}
 	}
 

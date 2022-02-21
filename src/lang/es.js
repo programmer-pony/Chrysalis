@@ -343,7 +343,7 @@ module.exports = {
   role_menu: 'Menú de roles',
   select_the_roles_that_you_want: 'Selecciona los roles que quieras',
   you_can_only_add_up_to_25_roles_to_the_menu: 'Solo puedes añadir hasta 25 roles al menú.',
-  manage_roles_permission_required: 'Chrysalis necesita el permiso `MANAGE_ROLES` para usar este comando.',
+  manage_roles_permission_required: 'Chrysalis necesita el permiso `MANAGE_ROLES` para que los menús de roles funcionen.',
   chrysalis_role_too_low: 'El rol de Chrysalis está por debajo del rol que estás solicitando. Por favor, contacta a un administrador para que lo arregle.',
   roles_managed_by_integrations_cannot_be_manually_assigned: 'Los roles administrados por integraciones no pueden ser asignados manualmente.',
   download_emoji: 'Descargar emoji',

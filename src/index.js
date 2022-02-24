@@ -327,9 +327,9 @@ async function createGuild(guild, rsc) {
 async function checkSuggestion(message, modules) {
 	let suggestions = modules.find((c) => c.name == 'suggestions');
 	if (suggestions.enabled && message.channel.id == suggestions.channel)
-	if (message.content.includes('http://') || message.content.includes('https://') || message.attachments.size>0) {
-		message.react('✅');
-		message.react('❌');
+	if (suggestions.reactToLinks && (message.content.includes('http://') || message.content.includes('https://')) || suggestions.reactToFiles && message.attachments.size>0) {
+		await message.react(suggestions.approvalEmoji).catch(r=>{});
+		await message.react(suggestions.disapprovalEmoji).catch(r=>{});
 	}
 }
 

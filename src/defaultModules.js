@@ -39,7 +39,11 @@ module.exports = [
   {
     name: 'suggestions',
     enabled: false,
-    channel: ''
+    channel: '',
+    reactToLinks: true,
+    reactToFiles: true,
+    approvalEmoji: '<:PinkiePieApproval:945776821121728522>',
+    disapprovalEmoji: '<:PinkiePieDisapproval:945776828365295616>'
   },
   {
     name: 'help',

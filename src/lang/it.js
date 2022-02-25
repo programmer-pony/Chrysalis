@@ -17,6 +17,8 @@
 
 */
 
+const emojis = require('../emojis.js');
+
 module.exports = {
   meta: {
     name: 'Italiano',
@@ -259,7 +261,7 @@ module.exports = {
     boost: {
       message: '**{user} ha appena potenziato il server!**',
       title: 'Grazie mille per aver poteniziato il server!',
-      description: '<a:NitroBoost:939892339369971832> Goditi il tuo nuovo ruolo! <a:NitroBoost:939892339369971832>'
+      description: `${emojis.boost} Goditi il tuo nuovo ruolo! ${emojis.boost}`
     },
     welcome: {
       message: 'Benvenuto a **{guild}**! {user}'

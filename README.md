@@ -21,7 +21,8 @@ Any contribution is welcome! From adding GIFs to adding languages. You can also 
 2. Run `npm i` to install the dependencies.
 3. Install MongoDB on your server.
 4. Make a copy of `.env_sample`, put your database details and your Discord token in it and rename it to `.env`.
-5. Start the bot using `npm run dev` (for development) or `npm start` (for production).
+5. Follow the instructions on `src/emojis.js` to make custom emojis work.
+6. Start the bot using `npm run dev` (for development) or `npm start` (for production).
 
 # License
 

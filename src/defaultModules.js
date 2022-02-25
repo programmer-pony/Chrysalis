@@ -17,6 +17,8 @@
 
 */
 
+const emojis = require('./emojis.js');
+
 module.exports = [
   {
     name: 'logs',
@@ -42,8 +44,8 @@ module.exports = [
     channel: '',
     reactToLinks: true,
     reactToFiles: true,
-    approvalEmoji: '<:PinkiePieApproval:945776821121728522>',
-    disapprovalEmoji: '<:PinkiePieDisapproval:945776828365295616>'
+    approvalEmoji: emojis.suggestionsYes,
+    disapprovalEmoji: emojis.suggestionsNo
   },
   {
     name: 'help',

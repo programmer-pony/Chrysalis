@@ -23,7 +23,7 @@ module.exports = async (member, guildInfo, channel) => {
 	let lang = require(`../../lang/${guildInfo.lang}.js`);
 	let modules = guildInfo.modules;
 	let boost = modules.find((c) => c.name == 'boost');
-	if (boost.enabled && boost.channel) {
+	if ((boost.enabled && boost.channel) || channel) {
 		let embed = new MessageEmbed()
 			.setTitle((boost.title !== 'default' ? boost.title : lang.defaultValues.boost.title).replaceAll('{user}',member.user.username).replaceAll('{boostCount}',member.guild.premiumSubscriptionCount).replaceAll('{tier}',member.guild.premiumTier))
 			.setDescription((boost.description !== 'default' ? boost.description : lang.defaultValues.boost.description).replaceAll('{user}',member.user).replaceAll('{boostCount}',member.guild.premiumSubscriptionCount).replaceAll('{tier}',member.guild.premiumTier))

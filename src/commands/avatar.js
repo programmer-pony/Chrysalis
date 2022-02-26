@@ -18,15 +18,14 @@
 */
 
 const { MessageEmbed } = require('discord.js');
+const mention2id = require('../utils/mention2id.js');
 
 module.exports = {
   name: 'avatar',
   alias: ['pfp'],
   run: async (client, message, command, args, lang, guildInfo) => {
 
-    let taggedUser = args[0] || message.member.user.id;
-    if (taggedUser.includes('<@!')) taggedUser = taggedUser.substring(3,taggedUser.length-1);
-    if (taggedUser.startsWith('<@')) taggedUser = taggedUser.substring(2,taggedUser.length-1);
+    let taggedUser = mention2id(args[0]) || message.member.user.id;
     try {
       taggedUser = await message.guild.members.fetch(taggedUser)
     } catch (e) {

@@ -17,18 +17,9 @@
 
 */
 
-const boostEmbed = require('../utils/embed/boostEmbed.js');
-const mention2id = require('../utils/mention2id.js');
-
-module.exports = {
-  name: 'boost',
-  alias: ['nitro'],
-  admin: true,
-  run: async (client, message, command, args, lang, guildInfo) => {
-
-    let member = message.guild.members.cache.get(mention2id(args[0])) || message.member;
-
-    boostEmbed(member, guildInfo, message.channel);
-
-  }
+module.exports = (mention) => {
+  if (!mention) return;
+  if (mention.includes('<@!')) return mention.slice(3,-1);
+  if (mention.startsWith('<@')) return mention.slice(2,-1);
+  return mention;
 }

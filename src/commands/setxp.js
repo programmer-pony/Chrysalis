@@ -20,6 +20,7 @@
 const { MessageEmbed } = require('discord.js');
 const connectToDatabase = require('../utils/connectToDatabase.js');
 const announceLevelUp = require('../utils/embed/announceLevelUp.js');
+const mention2id = require('../utils/mention2id.js');
 
 module.exports = {
   name: 'setxp',
@@ -32,9 +33,7 @@ module.exports = {
     let newXP = parseInt(args[1]);
     if (isNaN(newXP) || newXP < 0) return message.reply(lang.please_type_a_valid_positive_integer);
 
-    let taggedUser = args[0] || message.member.user.id;
-    if (taggedUser.includes('<@!')) taggedUser = taggedUser.substring(3,taggedUser.length-1);
-    if (taggedUser.startsWith('<@')) taggedUser = taggedUser.substring(2,taggedUser.length-1);
+    let taggedUser = mention2id(args[0]) || message.member.user.id;
 
     try {
       taggedUserObject = await client.users.fetch(taggedUser); // Check if it's a valid user

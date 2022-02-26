@@ -18,12 +18,13 @@
 */
 
 const { MessageEmbed } = require('discord.js');
+const mention2id = require('../utils/mention2id.js');
 
 module.exports = {
   name: 'userinfo',
   alias: ['user-info','ui','user','memberinfo','member-info','mi','member'],
   run: async (client, message, command, args, lang, guildInfo) => {
-    let taggedUser = args[0];
+    let taggedUser = mention2id(args[0]);
     // If there is no mention, check if the command is replying to another user's message. If not, use command author.
     if (!taggedUser) return message.mentions?.members.first() ? showMemberInfo(client, command, message, message.mentions.members.first(), guildInfo.color, lang) : showMemberInfo(client, command, message, message.member, guildInfo.color, lang);
     asyncMember(client, command, message, taggedUser, guildInfo.color, lang);
@@ -35,8 +36,6 @@ async function asyncMember(client, command, message, taggedUser, color, lang) {
     taggedUser = await message.guild.members.fetch(taggedUser);
     showMemberInfo(client, command, message, taggedUser, color, lang);
   } else {
-    if (taggedUser.includes('<@!')) taggedUser = taggedUser.substring(3,taggedUser.length-1);
-    if (taggedUser.startsWith('<@')) taggedUser = taggedUser.substring(2,taggedUser.length-1);
     try {
       taggedUser = await client.users.fetch(taggedUser);
       showUserInfo(client, command, message, taggedUser, color, lang);

@@ -19,6 +19,7 @@
 
 const connectToDatabase = require('../utils/connectToDatabase.js');
 const rankCard = require('../utils/canvas/rankCard.js');
+const mention2id = require('../utils/mention2id.js');
 const { MessageAttachment } = require('discord.js');
 
 module.exports = {
@@ -26,9 +27,7 @@ module.exports = {
   alias: ['level'],
   run: async (client, message, command, args, lang, guildInfo) => {
 
-    taggedUser = args[0] || message.member.user.id;
-    if (taggedUser.includes('<@!')) taggedUser = taggedUser.substring(3,taggedUser.length-1);
-    if (taggedUser.startsWith('<@')) taggedUser = taggedUser.substring(2,taggedUser.length-1);
+    taggedUser = mention2id(args[0]) || message.member.user.id;
 
     try {
       taggedUserObject = await client.users.fetch(taggedUser); // Check if it's a valid user

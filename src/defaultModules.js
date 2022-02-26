@@ -23,7 +23,9 @@ module.exports = [
   {
     name: 'logs',
     enabled: false,
-    channel: ''
+    channel: '',
+    logDeletedMessages: true,
+    logEditedMessages: true
   },
   {
     name: 'bannedwords',

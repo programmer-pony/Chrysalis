@@ -336,9 +336,11 @@ async function checkSuggestion(message, modules) {
 async function sendDeletedMessage(message) {
 	let guildInfo = await getGuildInfo(message.guild);
 	let modules = guildInfo.modules;
-	let lang = require(`./lang/${guildInfo.lang}.js`);
 	let logs = modules.find((c) => c.name == 'logs');
-	if (logs.enabled && logs.channel != '') {
+	if (logs.enabled && logs.logDeletedMessages && logs.channel != '') {
+
+		let lang = require(`./lang/${guildInfo.lang}.js`);
+
 		let embed = new MessageEmbed()
 			.setTitle(lang.message_deleted)
 			.setAuthor({name: message.author.tag, iconURL: message.author.displayAvatarURL()})
@@ -365,10 +367,12 @@ async function sendEditedMessage(oldMessage, newMessage) {
 	if (oldMessage.attachments.size == newMessage.attachments.size && oldMessage.content == newMessage.content) return;
 	if (newMessage.author.id == client.user.id) return;
 	let guildInfo = await getGuildInfo(newMessage.guild);
-	let lang = require(`./lang/${guildInfo.lang}.js`);
 	let modules = guildInfo.modules;
 	let logs = modules.find((c) => c.name == 'logs');
-	if (logs.enabled && logs.channel != '') {
+	if (logs.enabled && logs.logEditedMessages && logs.channel != '') {
+
+		let lang = require(`./lang/${guildInfo.lang}.js`);
+
 		let embed = new MessageEmbed()
 			.setTitle(lang.message_edited)
 			.setAuthor({name: newMessage.author.tag, iconURL: newMessage.author.displayAvatarURL()})

@@ -64,7 +64,7 @@ module.exports = async (user, color, bgURL, rank, level, currentXP, requiredXP, 
   ctx.textAlign = 'left';
 	ctx.fillStyle = 'white';
   // Username
-  let usrtxt = user.username.length > 16 ? user.username.substring(0,14)+'...' : user.username;
+  let usrtxt = user.username.length > 16 ? user.username.slice(0,14)+'...' : user.username;
   let discriminatorX = canvas.width/2-200 + ctx.measureText(usrtxt).width;
   await fillTextWithTwemoji(ctx, `${usrtxt}`, canvas.width/2-200, canvas.height/2);
   ctx.font = '36px Montserrat Medium';

@@ -47,7 +47,7 @@ module.exports = async (lang, bgURL, channel, user, message) => {
 	ctx.fillText(lang.welcome.toUpperCase(), canvas.width/2, canvas.height/2+136);
 	ctx.font = '48px Montserrat Black';
 	// Username
-	await fillTextWithTwemoji(ctx, `${user.username.length > 21 ? user.username.toUpperCase().substring(0,18)+'...' : user.username.toUpperCase()}#${user.discriminator}`, canvas.width/2, canvas.height/2+182);
+	await fillTextWithTwemoji(ctx, `${user.username.length > 21 ? user.username.toUpperCase().slice(0,18)+'...' : user.username.toUpperCase()}#${user.discriminator}`, canvas.width/2, canvas.height/2+182);
 	ctx.font = '36px Montserrat Black';
 	// Member count
 	ctx.fillText(lang.you_are_the_member_n.toUpperCase().replace('{0}',channel.guild.memberCount), canvas.width/2, canvas.height/2+220);

@@ -348,10 +348,10 @@ async function sendDeletedMessage(message) {
 			.addField(lang.author,`<@!${message.author.id}>`)
 
 		if (message.content)
-		embed.addField(lang.message,message.content.substring(0,1024));
+		embed.addField(lang.message,message.content.slice(0,1024));
 
 		if (message.attachments.size>0)
-		embed.addField(lang.attachments,message.attachments.map(a => a.name.substring(0,1024)).join('\n'));
+		embed.addField(lang.attachments,message.attachments.map(a => a.name).join('\n').slice(0,1024));
 
 		embed.addField(lang.message_id, message.id);
 
@@ -380,13 +380,13 @@ async function sendEditedMessage(oldMessage, newMessage) {
 			.addField(lang.author,`<@!${newMessage.author.id}>`)
 
 		if (oldMessage.content != newMessage.content) {
-			if (oldMessage.content) embed.addField(lang.old_message,oldMessage.content.substring(0,1024));
-			if (newMessage.content) embed.addField(lang.new_message,newMessage.content.substring(0,1024));
+			if (oldMessage.content) embed.addField(lang.old_message,oldMessage.content.slice(0,1024));
+			if (newMessage.content) embed.addField(lang.new_message,newMessage.content.slice(0,1024));
 		}
 
 		if (oldMessage.attachments.size>0 && oldMessage.attachments.size != newMessage.attachments.size) {
-			embed.addField(lang.old_attachments,oldMessage.attachments.map(a => a.name.substring(0,1024)).join('\n'));
-			if (newMessage.attachments.size>0) embed.addField(lang.new_attachments,oldMessage.attachments.map(a => a.name.substring(0,1024)).join('\n'));
+			embed.addField(lang.old_attachments,oldMessage.attachments.map(a => a.name).join('\n').slice(0,1024));
+			if (newMessage.attachments.size>0) embed.addField(lang.new_attachments,oldMessage.attachments.map(a => a.name).join('\n').slice(0,1024));
 		}
 
 		embed.addField(lang.message_id, newMessage.id);

@@ -31,7 +31,7 @@ module.exports = {
 
     let requestedRole = message.guild.roles.cache.find(role => role.name.toLowerCase().includes(args.join(' ').toLowerCase()));
     requestedRole ??= message.guild.roles.cache.find(role => role.id == args[0]);
-    requestedRole ??= message.guild.roles.cache.find(role => role.id == args[0].substring(3,args[0].length-1));
+    requestedRole ??= message.guild.roles.cache.find(role => role.id == args[0].slice(3,-1));
 
     if (!requestedRole) return message.reply(lang.unkown_role);
 

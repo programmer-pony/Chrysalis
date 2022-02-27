@@ -138,7 +138,7 @@ async function checkAction(message, requestedModule, key, guildInfo, args, lang)
     } else {
       moduleObj[key] = args[2];
       if (key.toLowerCase().endsWith('channel')) {
-        if (moduleObj[key].startsWith('<#')) moduleObj[key] = moduleObj[key].substring(2,moduleObj[key].length-1);
+        if (moduleObj[key].startsWith('<#')) moduleObj[key] = moduleObj[key].slice(2,-1);
         await message.guild.channels.fetch();
         if (!message.guild.channels.cache.get(moduleObj[key])) return message.reply(lang.please_type_a_valid_channel);
       }

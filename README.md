@@ -10,7 +10,11 @@ Chrysalis is a general purpose, completely free and open source, MLP-themed Disc
 
 # How to contribute
 
-Any contribution is welcome! From adding GIFs to adding new features. You can also help translating the bot and/or its [documentation](https://chrysalis-docs.programmerpony.com/). Chrysalis is currently available in English, Spanish and Italian, and the documentation is available in English and Spanish. PRs fixing typos are welcome too. With your help, we can make Chrysalis the only bot you'll ever need!
+Any contribution is welcome! From adding GIFs to adding new features.  
+
+You can also help translating the bot and/or its [documentation](https://chrysalis-docs.programmerpony.com/). Chrysalis is currently available in English, Spanish and Italian, and the documentation is available in English and Spanish. PRs fixing typos are welcome too.  
+
+With your help, we can make Chrysalis the only bot you'll ever need!
 
 # How to build
 

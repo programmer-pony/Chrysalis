@@ -201,15 +201,12 @@ async function runTextCommand(message, guildInfo) {
 
 	if (!message.channel.permissionsFor(client.user.id).has('SEND_MESSAGES') || !message.channel.permissionsFor(client.user.id).has('VIEW_CHANNEL')) return;
 
-	let lang = require(`./lang/${guildInfo.lang}.js`);
-	let args = message.content.slice(guildInfo.prefix.length).split(/ +/);
-	let command = args.shift().toLowerCase();
-	const noxp = ['rank','leaderboard','lb','highscores','top','leaderboards','setxp'];
-	if (noxp.indexOf(command) == -1 && guildInfo.modules.find(m => m.name == 'rank').enabled) await addMessageXP(message, guildInfo);
-
 	if (message.content.startsWith(guildInfo.prefix)) {
+		let args = message.content.slice(guildInfo.prefix.length).split(' ');
+		let command = args.shift().toLowerCase();
 		let cmd = client.commands.get(command) || client.commands.find((c) => c.alias.includes(command));
 		if (cmd) {
+			let lang = require(`./lang/${guildInfo.lang}.js`);
 			if (cmd.nsfw && !message.channel.nsfw) return message.author.send(lang.nsfw_only).catch(r=>{});
 			let restricted = false;
 			if (!cmd.admin) restricted = await isRestricted(cmd.name, message, guildInfo.modules);
@@ -217,8 +214,8 @@ async function runTextCommand(message, guildInfo) {
 			if (restricted) return message.author.send(lang.wrong_channel).catch(r=>{/*User blocked Chrysalis*/});
 			if (cmd.name!='clean') await message.channel.sendTyping().catch(r=>{});
 			cmd.run(client, message, command, args, lang, guildInfo);
-    }
-  }
+    } else if (guildInfo.modules.find(m => m.name == 'rank').enabled) await addMessageXP(message, guildInfo);
+	}
 }
 
 async function runSlashCommand(i) {

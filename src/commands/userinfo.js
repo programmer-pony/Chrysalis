@@ -32,10 +32,10 @@ module.exports = {
 }
 
 async function asyncMember(client, command, message, taggedUser, color, lang) {
-  if (message.guild.members.cache.get(taggedUser)) {
+  try {
     taggedUser = await message.guild.members.fetch(taggedUser);
     showMemberInfo(client, command, message, taggedUser, color, lang);
-  } else {
+  } catch (e) {
     try {
       taggedUser = await client.users.fetch(taggedUser);
       showUserInfo(client, command, message, taggedUser, color, lang);

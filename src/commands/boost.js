@@ -26,9 +26,11 @@ module.exports = {
   admin: true,
   run: async (client, message, command, args, lang, guildInfo) => {
 
-    let member = message.guild.members.cache.get(mention2id(args[0])) || message.member;
-
-    boostEmbed(member, guildInfo, message.channel);
+    boostEmbed(
+      (args[0] ? await message.guild.members.fetch(mention2id(args[0])).catch(r=>{}) : message.member) || message.member,
+      guildInfo,
+      message.channel
+    );
 
   }
 }

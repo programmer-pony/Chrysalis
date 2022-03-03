@@ -95,9 +95,8 @@ client.on('guildMemberAdd', async (member) => {
 	let guildInfo = await getGuildInfo(member.guild);
 	let lang = require(`./lang/${guildInfo.lang}.js`);
 	let welcome = guildInfo.modules.find((c) => c.name == 'welcome');
-	if (!welcome.enabled) return;
-	let channel = client.channels.cache.find(channel => channel.id == welcome.channel);
-	if (!channel) return;
+	if (!welcome.enabled || !welcome.channel) return;
+	let channel = await member.guild.channels.fetch(welcome.channel).catch(r=>{return});
 	if (!channel.permissionsFor(client.user.id).has('VIEW_CHANNEL')) return;
 	if (!channel.permissionsFor(client.user.id).has('SEND_MESSAGES')) return;
 	if (!channel.permissionsFor(client.user.id).has('ATTACH_FILES')) return;
@@ -109,20 +108,18 @@ client.on('guildMemberRemove', async (member) => {
 	let isBan = banned.has(member.user.id);
 	if (isBan) banned.delete(member.user.id);
 	let guildInfo = await getGuildInfo(member.guild);
-	let lang = require(`./lang/${guildInfo.lang}.js`);
 	let goodbye = guildInfo.modules.find((c) => c.name == 'goodbye');
 	if (!goodbye.enabled) return;
-	let channel = client.channels.cache.find(channel => channel.id == goodbye.channel);
-	if (channel) {
-		goodbye.message ||= 'default';
-		if (goodbye.message == 'default') goodbye.message = lang.defaultValues.goodbye.message;
-		goodbye.banMessage ||= 'default';
-		if (goodbye.banMessage == 'default') goodbye.banMessage = lang.defaultValues.goodbye.banMessage;
-		if (!channel.permissionsFor(client.user.id).has('VIEW_CHANNEL')) return;
-		if (!channel.permissionsFor(client.user.id).has('SEND_MESSAGES')) return;
-		let message = isBan ? goodbye.banMessage : goodbye.message;
-		channel.send(message.replaceAll('{user}',member.user.tag).replaceAll('{guild}',member.guild.name));
-	}
+	let channel = await member.guild.channels.fetch(goodbye.channel).catch(r=>{return});
+	let lang = require(`./lang/${guildInfo.lang}.js`);
+	goodbye.message ||= 'default';
+	if (goodbye.message == 'default') goodbye.message = lang.defaultValues.goodbye.message;
+	goodbye.banMessage ||= 'default';
+	if (goodbye.banMessage == 'default') goodbye.banMessage = lang.defaultValues.goodbye.banMessage;
+	if (!channel.permissionsFor(client.user.id).has('VIEW_CHANNEL')) return;
+	if (!channel.permissionsFor(client.user.id).has('SEND_MESSAGES')) return;
+	let message = isBan ? goodbye.banMessage : goodbye.message;
+	channel.send(message.replaceAll('{user}',member.user.tag).replaceAll('{guild}',member.guild.name));
 });
 
 client.on('guildMemberUpdate', async (oldMember, newMember) => {
@@ -214,8 +211,8 @@ async function runTextCommand(message, guildInfo) {
 			if (restricted) return message.author.send(lang.wrong_channel).catch(r=>{/*User blocked Chrysalis*/});
 			if (cmd.name!='clean') await message.channel.sendTyping().catch(r=>{});
 			cmd.run(client, message, command, args, lang, guildInfo);
-    } else if (guildInfo.modules.find(m => m.name == 'rank').enabled) await addMessageXP(message, guildInfo);
-	}
+    }
+	} else if (guildInfo.modules.find(m => m.name == 'rank').enabled) await addMessageXP(message, guildInfo);
 }
 
 async function runSlashCommand(i) {
@@ -334,8 +331,9 @@ async function sendDeletedMessage(message) {
 	let guildInfo = await getGuildInfo(message.guild);
 	let modules = guildInfo.modules;
 	let logs = modules.find((c) => c.name == 'logs');
-	if (logs.enabled && logs.logDeletedMessages && logs.channel != '') {
+	if (logs.enabled && logs.logDeletedMessages && logs.channel) {
 
+		let channel = await message.guild.channels.fetch(logs.channel).catch(r=>{return});
 		let lang = require(`./lang/${guildInfo.lang}.js`);
 
 		let embed = new MessageEmbed()
@@ -354,8 +352,7 @@ async function sendDeletedMessage(message) {
 
 		embed.addField(lang.channel,`${message.channel} [${lang.jump_to_moment}](${message.url})`)
 
-		let channel = client.channels.cache.find(channel => channel.id == logs.channel);
-		if (channel && channel.guild.id == message.guild.id) channel.send({embeds:[embed]});
+		channel.send({embeds:[embed]}).catch(r=>{});
 	}
 }
 
@@ -366,8 +363,9 @@ async function sendEditedMessage(oldMessage, newMessage) {
 	let guildInfo = await getGuildInfo(newMessage.guild);
 	let modules = guildInfo.modules;
 	let logs = modules.find((c) => c.name == 'logs');
-	if (logs.enabled && logs.logEditedMessages && logs.channel != '') {
+	if (logs.enabled && logs.logEditedMessages && logs.channel) {
 
+		let channel = message.guild.channels.fetch(logs.channel).catch(r=>{return});
 		let lang = require(`./lang/${guildInfo.lang}.js`);
 
 		let embed = new MessageEmbed()
@@ -389,8 +387,7 @@ async function sendEditedMessage(oldMessage, newMessage) {
 		embed.addField(lang.message_id, newMessage.id);
 		embed.addField(lang.channel,`${newMessage.channel} [${lang.jump_to_moment}](${newMessage.url})`);
 
-		let channel = client.channels.cache.find(channel => channel.id == logs.channel);
-		if (channel && channel.guild.id == newMessage.guild.id) channel.send({embeds:[embed]});
+		channel.send({embeds:[embed]}).catch(r=>{});
 	}
 }
 

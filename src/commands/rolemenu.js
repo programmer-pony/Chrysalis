@@ -35,6 +35,7 @@ module.exports = {
     args = [...new Set(args)];
     let roles = [];
 
+    await message.guild.roles.fetch();
     for (role in args) try {
       roles.push(message.guild.roles.cache.get(args[role]).id);
     } catch (e) { /* Skip invalid role */ }
@@ -60,8 +61,6 @@ module.exports = {
       if (row.length == 0) break;
       buttonRow[index] = new MessageActionRow()
       for (role of row) {
-        await message.guild.roles.fetch();
-        if (!message.guild.roles.cache.get(role)) break;
         let button = new MessageButton()
           .setStyle('PRIMARY')
           .setLabel(message.guild.roles.cache.get(role).name)

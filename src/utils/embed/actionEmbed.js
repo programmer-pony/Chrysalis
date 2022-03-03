@@ -29,7 +29,7 @@ module.exports = async (message, color, args, action) => {
   let onChrysalis = false;
 
   try {
-    targetUser = await message.guild.members.cache.get(taggedUser);
+    targetUser = await message.guild.members.fetch(taggedUser);
     color = targetUser.displayHexColor == '#000000' ? color : targetUser.displayHexColor;
     if (targetUser.id == message.client.user.id) onChrysalis = true;
     if (targetUser.id == message.member.id) onSelf = true;

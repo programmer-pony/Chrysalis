@@ -365,7 +365,7 @@ async function sendEditedMessage(oldMessage, newMessage) {
 	let logs = modules.find((c) => c.name == 'logs');
 	if (logs.enabled && logs.logEditedMessages && logs.channel) {
 
-		let channel = message.guild.channels.fetch(logs.channel).catch(r=>{return});
+		let channel = await newMessage.guild.channels.fetch(logs.channel).catch(r=>{return});
 		let lang = require(`./lang/${guildInfo.lang}.js`);
 
 		let embed = new MessageEmbed()

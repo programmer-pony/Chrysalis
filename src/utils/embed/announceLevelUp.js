@@ -20,7 +20,7 @@
 const { MessageEmbed } = require('discord.js');
 
 module.exports = async (client, user, level, channelID, color, lang) => {
-	let channel = await client.channels.fetch(channelID).catch(r=>{});
+	let channel = await client.channels.fetch(channelID).catch(r=>{return});
 	if (!channel.permissionsFor(client.user.id).has('SEND_MESSAGES')) return;
 	let embed = new MessageEmbed()
 		.setTitle(`${user.username}`)

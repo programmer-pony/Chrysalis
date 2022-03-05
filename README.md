@@ -18,7 +18,7 @@ With your help, we can make Chrysalis the only bot you'll ever need!
 
 # How to build
 
-###### Chrysalis is made with discord.js v13.6, so you will need Node.js 16.9 or higher to run it.
+###### Chrysalis is made with discord.js v13, so you will need Node.js 16.6 or higher to run it.
 
 1. Fork and clone the repository.
 2. Run `npm i` to install the dependencies.

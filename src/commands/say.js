@@ -22,6 +22,11 @@ module.exports = {
   alias: ['text'],
   run: async (client, message, command, args, lang, guildInfo) => {
 
+    if (!message.author) {
+      let bannedwords = guildInfo.modules.find(m => m.name == 'bannedwords');
+      if (bannedwords.enabled) for (word of bannedwords.words) if (args[0].includes(word)) return;
+    }
+
     return message.author ? message.channel.send(args.join(' ') || '_ _') : message.editReply(args[0]);
 
   }

@@ -53,7 +53,7 @@ module.exports = {
       let newLevel = Math.trunc((Math.sqrt(5)/5)*Math.sqrt(user.xp));
       await guilds.updateOne({id: message.guild.id},{ $set: { modules: modules}});
       db.close();
-      if ((currentLevel != newLevel) && rank.announceLevelUp)
+      if ((currentLevel < newLevel) && rank.announceLevelUp)
     	announceLevelUp(
     		client,
     		taggedUserObject,

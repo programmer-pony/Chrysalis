@@ -22,7 +22,7 @@ const mention2id = require('../mention2id.js');
 
 module.exports = async (message, color, args, action) => {
 
-  let taggedUser = mention2id(args[0]) || message.member.id;
+  let taggedUser = mention2id(args[0]) || message.mentions.users.first() || message.member.id;
 
   let author = message.member.nickname || message.member.user.username;
   let onSelf = false;

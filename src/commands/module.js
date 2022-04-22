@@ -113,8 +113,8 @@ async function checkAction(message, requestedModule, key, guildInfo, args, lang)
       if (isNaN(parseInt(args[2])) || parseInt(args[2]) >= Number.MAX_SAFE_INTEGER || parseInt(args[2]) < 0) return message.reply(lang.please_type_a_valid_positive_integer);
       if (key == 'filter') {
         try {
-          let res = await fetch(`https://manebooru.art/api/v1/json/filters/${moduleObj[key]}`);
-          if (!res.json().filter) return message.reply(lang.filter_not_found);
+          let json = await fetch(`https://manebooru.art/api/v1/json/filters/${moduleObj[key]}`).then(res => res.json());
+          if (!json.filter) return message.reply(lang.filter_not_found);
         } catch (e) { return message.reply(lang.filter_not_found); }
       }
       moduleObj[key] = parseInt(args[2]);

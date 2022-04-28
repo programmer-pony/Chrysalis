@@ -201,7 +201,7 @@ module.exports = {
     },
     {
       name: 'torrent',
-      description: 'Download episodes of MLP via torrent!'
+      description: 'Torrent ponies!'
     },
     {
       name: 'say',
@@ -234,7 +234,7 @@ module.exports = {
       booru: ['booru {query (optional)}', 'Sends a safe image from Manebooru. You can type search tags.'],
       clop: ['clop {query (optional)}', 'Sends a clop image from Manebooru. You can type search tags. Can only be used in NSFW channels.','NSFW'],
       e621: ['e621 {query (optional)}', 'Sends an image from e621. You can type search tags. Can only be used in NSFW channels.','NSFW'],
-      torrent: ['torrent', 'Download episodes of MLP via torrent!'],
+      torrent: ['torrent', 'Torrent ponies!'],
       say: ['say {text}', 'Chrysalis says what you type.']
     },
     admin: [
@@ -370,7 +370,7 @@ module.exports = {
   season: 'Season',
   seasons: 'Seasons',
   movies: 'Movies',
-  torrent_footer: 'The episodes are downloaded as torrents. Chrysalis recommends downloading them using qBitTorrent, due to it not containing ads. Links are provided by yayponies.no /)',
+  torrent_footer: 'Chrysalis recommends using qBitTorrent, since it is ad-free and open source. Links are provided by yayponies.no /)',
   error_fetching_episodes: 'There was an error fetching the episodes. Please, try again later.',
   attach_files_permission_missing: `Chrysalis doesn't have permission to send images to this channel.`,
   please_type_a_valid_positive_integer: 'Please type a valid positive integer.',

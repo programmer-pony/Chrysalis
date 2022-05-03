@@ -383,5 +383,14 @@ module.exports = {
   profile_fields_title: 'Puoi modificare queste impostazioni:',
   profile_updated: 'Profilo Aggiornato!',
   unsupported_image_type: 'Tipo di immagine non supportato.',
-  check_documentation: 'Fare clic sul nome del modulo per aprire la documentazione per questo modulo.'
+  check_documentation: 'Fare clic sul nome del modulo per aprire la documentazione per questo modulo.',
+  import_levels_from: 'Da quale bot vuoi importare i livelli?',
+  no_levels_found: 'Nessun livello trovato da {bot} in questo server.',
+  mee6_fix: 'Assicurati la tua classifica MEE6 è pubblico cliccando [questa opzione](https://mee6.xyz/dashboard/921413532141101077/leaderboard).',
+  xp_migration_adapt: 'Il modo in cui viene calcolato XP potrebbe essere diverso da quello di altri bot. Cosa vuoi fare?',
+  import_levels_and_adapt_xp: 'Importa i livelli e adatta XP',
+  import_xp_and_adapt_levels: 'Importa il XP e adatta i livelli',
+  import_leaderboard: 'La classifica ora apparirà così:',
+  migration_complete: 'Migrazione completata!',
+  xp_successfully_imported: `L'XP è stato importato correttamente.`
 }

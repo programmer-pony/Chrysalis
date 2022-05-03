@@ -383,5 +383,14 @@ module.exports = {
   profile_fields_title: 'You can change the following:',
   profile_updated: 'Profile updated!',
   unsupported_image_type: 'Unsupported image type.',
-  check_documentation: 'Click on the module name to open the documentation for this module.'
+  check_documentation: 'Click on the module name to open the documentation for this module.',
+  import_levels_from: 'Which bot do you want to import levels from?',
+  no_levels_found: 'No levels found from {bot} on this server.',
+  mee6_fix: 'Please make sure your MEE6 leaderboard is public by checking [this option](https://mee6.xyz/dashboard/921413532141101077/leaderboard).',
+  xp_migration_adapt: 'The way Chrysalis calculates levels may vary from other bots. What do you want to do?',
+  import_levels_and_adapt_xp: 'Import levels and adapt XP',
+  import_xp_and_adapt_levels: 'Import XP and adapt levels',
+  import_leaderboard: 'The leaderboard will now look like this:',
+  migration_complete: 'Migration complete!',
+  xp_successfully_imported: 'XP has been successfully imported.'
 }

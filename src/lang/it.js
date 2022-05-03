@@ -254,7 +254,8 @@ module.exports = {
       ['rolemenu {ruoloID} {ruoloID} {ruoloID}...', `Crea un rolemenu. Ogni argomenti è un'ID di un ruolo.`],
       ['welcome {utene}', `Mostra un'anteprima della carta di benvenuto per l'utente menzionato.`],
       ['boost {utene}', `Mostra un'anteprima della carta di potenziare il server.`], // Better translation needed
-      ['setxp {utente} {xp}', `Imposta la quantità di xp che un'utente ha.`]
+      ['setxp {utente} {xp}', `Imposta la quantità di xp che un'utente ha.`],
+      ['importxp', `Importa l'XP d'altri bot di livello.`]
     ]
   },
   defaultValues: {

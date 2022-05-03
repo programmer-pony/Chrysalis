@@ -254,7 +254,8 @@ module.exports = {
       ['rolemenu {roleID} {roleID} {roleID}...', 'Creates a role menu. Every argument is a role ID.'],
       ['welcome {user}', 'Shows a preview of the welcome card for the mentioned user.'],
       ['boost {user}', 'Shows a preview of the boost card.'],
-      ['setxp {user} {xp}', 'Sets the amount of XP that a user has.']
+      ['setxp {user} {xp}', 'Sets the amount of XP that a user has.'],
+      ['importxp', 'Import XP from other level bots.']
     ]
   },
   defaultValues: {

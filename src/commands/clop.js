@@ -37,7 +37,7 @@ module.exports = {
       if (filter == 200) for (i of f) if (!query.includes(i)) query += `,-${i}`;
       query = `${query.includes('id:') || `,${query}`.includes(',suggestive') ? '(questionable || explicit || suggestive)' : '(questionable || explicit)'},${query}&filter_id=${filter}&per_page=50`;
     } else {
-      query = `-${f.join(',-')}&filter_id=${filter}&per_page=50`;
+      query = `(questionable || explicit), -${f.join(',-')}&filter_id=${filter}&per_page=50`;
     }
     fetchImage(client, query, message, guildInfo.color, 1, lang);
   }

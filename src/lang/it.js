@@ -85,20 +85,8 @@ module.exports = {
       description: 'Mostra gli utenti con più XP.'
     },
     {
-      name: 'profilo',
-      description: 'Modifica il tuo profilo (in ogni server).',
-      options: [
-        {
-          name: 'colore',
-          type: 'STRING',
-          description: 'Il profilo hex per il tuo profilo.'
-        },
-        {
-          name: 'immagine_di_sfondo',
-          type: 'STRING',
-          description: `URL per l'immagine di sfondo.`
-        }
-      ]
+      name: 'profile',
+      description: 'Modifica il tuo profilo (in ogni server).'
     },
     {
       name: 'emoji',
@@ -225,7 +213,7 @@ module.exports = {
       serverinfo: ['serverinfo','Mostra informazioni sul server.'],
       rank: ['grado {utente (opzionale)}','Mostra il tuo livello attuale e il tuo XP.'],
       leaderboard: ['tabellone.','Mostra il tabellone di XP.'],
-      profile: ['profile {campo} {valore nuovo}','Modifica il tuo profilo (en ogni server).'],
+      profile: ['profile','Modifica il tuo profilo (en ogni server).'],
       emoji: ['jumbo {emoji}', `Invia l'emoji come un'immagine.`],
       love: ['love {utente 1} {utente 2 (opzionale)}', 'Verifica la compatibilità tra due utenti.'],
       boop: ['boop {utente}', `Boop un'utente.`],
@@ -381,7 +369,8 @@ module.exports = {
   level: 'Livello',
   rank: 'Rango',
   total_xp: 'XP Totale',
-  profile_fields_title: 'Puoi modificare queste impostazioni:',
+  profile: 'Profilo',
+  background_image: 'Immagine di sfondo',
   profile_updated: 'Profilo Aggiornato!',
   unsupported_image_type: 'Tipo di immagine non supportato.',
   check_documentation: 'Fare clic sul nome del modulo per aprire la documentazione per questo modulo.',

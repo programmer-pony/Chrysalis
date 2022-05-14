@@ -41,7 +41,7 @@ const boostEmbed = require('./utils/embed/boostEmbed.js');
 const connectToDatabase = require('./utils/connectToDatabase.js');
 const defaultModules = require('./defaultModules.js');
 const onCooldown = new Set();
-const onVoiceChat = new Set();
+const inVoiceChat = new Set();
 const banned = new Set();
 
 client.on('ready', async () => {
@@ -133,7 +133,7 @@ client.on('voiceStateUpdate', async (oldState, newState) => {
 	if (newState.member.user.bot) return;
 	if ((newState.channel?.id && !oldState.channel?.id) || (newState.channel?.guild?.id && oldState.channel?.guild?.id != newState.channel?.guild?.id)) {
 		// User joins a voice channel (not switch)
-		onVoiceChat.add(`${newState.member.user.id},${newState.guild.id};${new Date()}`);
+		inVoiceChat.add(`${newState.member.user.id},${newState.guild.id};${new Date()}`);
 	}
 	if ((oldState.channel?.id && !newState.channel?.id) || (oldState.channel?.guild?.id && oldState.channel?.guild?.id != newState.channel?.guild?.id)) {
 		// User leaves a voice channel
@@ -230,7 +230,7 @@ async function runSlashCommand(i) {
 		else if (!i.member.permissions.has('ADMINISTRATOR')) return;
 		if (restricted) return i.reply({content:lang.wrong_channel,ephemeral:true}).catch(r=>{});
 		else {
-			await i.deferReply({ephemeral:cmd.ephemeral}).catch(r=>{return});
+			if (!cmd.modal) await i.deferReply({ephemeral:cmd.ephemeral}).catch(r=>{return});
 			cmd.run(client, i, command, args, lang, guildInfo);
 		}
 	}
@@ -445,8 +445,8 @@ async function addVoiceXP(state) {
 	let user = rank.users.find(u => u.id == state.member.user.id);
 	if (user?.xp >= Number.MAX_SAFE_INTEGER) return;
 
-	let ovc = Array.from(onVoiceChat).find(e=>e.startsWith(`${state.member.user.id},${state.guild.id};`));
-	if (onVoiceChat.delete(ovc)) {
+	let ivc = Array.from(inVoiceChat).find(e=>e.startsWith(`${state.member.user.id},${state.guild.id};`));
+	if (inVoiceChat.delete(ivc)) {
 		let db = await connectToDatabase();
 		let guilds = db.db('chrysalis').collection('guilds');
 		let guild = await guilds.findOne({id: state.guild.id});
@@ -456,7 +456,7 @@ async function addVoiceXP(state) {
 		if (!user) user = rank.users[rank.users.push({id: state.member.user.id, xp: 0})-1];
 		let currentLevel = Math.trunc((Math.sqrt(5)/5)*Math.sqrt(user.xp));
 
-		let timestamp = new Date(ovc.slice(ovc.indexOf(';')+1));
+		let timestamp = new Date(ivc.slice(ivc.indexOf(';')+1));
 		let secondsInVoiceChat = Math.trunc(Math.abs(new Date() - timestamp)/1000);
 		if (secondsInVoiceChat >= rank.voiceChatCooldown) user.xp+=Math.trunc(secondsInVoiceChat/rank.voiceChatCooldown)*rank.xpInVoiceChat;
 		let newLevel = Math.trunc((Math.sqrt(5)/5)*Math.sqrt(user.xp));
@@ -486,28 +486,26 @@ async function getGuildInfo(guild) {
 		guildInfo = await guilds.findOne({id: guild.id});
 	}
 	let modules = guildInfo.modules;
-	let fixedModules = modules.filter(m => {
-		return m !== null;
-	});
-	if (fixedModules.length != modules.length) {
-		console.log(`Broken modules found on guild with ID ${guild.id}`);
-		modules = fixedModules;
+	// Remove null modules
+	let validModules = modules.filter(m => m !== null);
+	if (validModules.length < modules.length) {
+		console.log(`Null modules found on guild with ID ${guild.id}`);
+		modules = validModules;
 		await guilds.updateOne({id: guild.id},{ $set: { modules: modules}});
 	}
-	for (dm of defaultModules) {
-		if (!modules.find((c) => c.name == dm.name)) modules.push(dm);
-	}
+	// Add missing modules
+	for (dm of defaultModules) if (!modules.find((m) => m.name == dm.name)) modules.push(dm);
 	for (m of modules) {
-		moduleModel = defaultModules.find((c) => c.name == m.name);
+		// Remove leftover modules
+		moduleModel = defaultModules.find((dm) => dm.name == m.name);
 		if (!moduleModel) {
 			delete m;
 			continue;
 		}
+		// Add missing properties
 		for (key in moduleModel) if (!(key in m)) m[key] = moduleModel[key];
-		for (key in m) if (!(key in moduleModel)) {
-			delete m[key];
-			continue;
-		}
+		// Remove leftover properties
+		for (key in m) if (!(key in moduleModel)) delete m[key];
 	}
 	await guilds.updateOne({id: guild.id},{ $set: { modules: modules}});
 	db.close();

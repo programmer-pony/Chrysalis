@@ -86,19 +86,7 @@ module.exports = {
     },
     {
       name: 'profile',
-      description: 'Edita tu perfil (en todos los servidores).',
-      options: [
-        {
-          name: 'color',
-          type: 'STRING',
-          description: 'El color hexadecimal para tu perfil.'
-        },
-        {
-          name: 'imagen_de_fondo',
-          type: 'STRING',
-          description: 'La URL de la imagen de fondo para tu perfil.'
-        }
-      ]
+      description: 'Edita tu perfil (en todos los servidores).'
     },
     {
       name: 'emoji',
@@ -225,7 +213,7 @@ module.exports = {
       serverinfo: ['serverinfo','Muestra información sobre el servidor.'],
       rank: ['rank {usuario (opcional)}','Muestra tu nivel y experiencia actual.'],
       leaderboard: ['leaderboard','Muestra los usuarios con más experiencia.'],
-      profile: ['profile {campo} {nuevo valor}','Edita tu perfil (en todos los servidores).'],
+      profile: ['profile','Edita tu perfil (en todos los servidores).'],
       emoji: ['jumbo {emoji}', 'Envía el emoji como una imagen.'],
       love: ['love {usuario 1} {usuario 2 (opcional)}', 'Comprueba tu nivel de compatibilidad entre dos usuarios. Si solo escribes un usuario el otro serás tú.'],
       boop: ['boop {usuario}', 'Hace boop a un usuario.'],
@@ -381,7 +369,8 @@ module.exports = {
   level: 'Nivel',
   rank: 'Rango',
   total_xp: 'XP total',
-  profile_fields_title: 'Puedes cambiar lo siguiente:',
+  profile: 'Perfil',
+  background_image: 'Imagen de fondo',
   profile_updated: '¡Perfil actualizado!',
   unsupported_image_type: 'Tipo de imagen no soportado.',
   check_documentation: 'Haz clic en el nombre del módulo para abrir la documentación de este módulo.',

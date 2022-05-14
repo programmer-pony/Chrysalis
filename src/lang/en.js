@@ -86,19 +86,7 @@ module.exports = {
     },
     {
       name: 'profile',
-      description: 'Edit your profile (on all servers).',
-      options: [
-        {
-          name: 'color',
-          type: 'STRING',
-          description: 'The hex color for your profile.'
-        },
-        {
-          name: 'background_image',
-          type: 'STRING',
-          description: 'The background image URL for your profile.'
-        }
-      ]
+      description: 'Edit your profile (on all servers).'
     },
     {
       name: 'emoji',
@@ -225,7 +213,7 @@ module.exports = {
       serverinfo: ['serverinfo','Shows info about the server.'],
       rank: ['rank {user (optional)}','Shows your current level and XP.'],
       leaderboard: ['leaderboard','Shows the XP leaderboard.'],
-      profile: ['profile {field} {new value}','Edit your profile (on all servers).'],
+      profile: ['profile','Edit your profile (on all servers).'],
       emoji: ['jumbo {emoji}', 'Sends the emoji as an image.'],
       love: ['love {user 1} {user 2 (optional)}', 'Checks the compatibility level between two users.'],
       boop: ['boop {user}', 'Boops a user.'],
@@ -381,7 +369,8 @@ module.exports = {
   level: 'Level',
   rank: 'Rank',
   total_xp: 'Total XP',
-  profile_fields_title: 'You can change the following:',
+  profile: 'Profile',
+  background_image: 'Background image',
   profile_updated: 'Profile updated!',
   unsupported_image_type: 'Unsupported image type.',
   check_documentation: 'Click on the module name to open the documentation for this module.',

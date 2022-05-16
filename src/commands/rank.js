@@ -24,7 +24,7 @@ const { MessageAttachment } = require('discord.js');
 
 module.exports = {
   name: 'rank',
-  alias: ['level'],
+  alias: ['level','r'],
   run: async (client, message, command, args, lang, guildInfo) => {
 
     taggedUser = mention2id(args[0]) || message.member.user.id;

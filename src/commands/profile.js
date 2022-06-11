@@ -62,7 +62,7 @@ async function showModal(i, lang, button, message) {
           label: lang.color,
           style: 'SHORT',
           value: data.color,
-          placeholder: data.color.slice(0,100)
+          placeholder: data.color?.slice(0,100)
         })
       ]),
       new MessageActionRow().addComponents([
@@ -71,7 +71,7 @@ async function showModal(i, lang, button, message) {
           label: lang.background_image,
           style: 'SHORT',
           value: data.bgURL,
-          placeholder: data.bgURL.slice(0,100)
+          placeholder: data.bgURL?.slice(0,100)
         })
       ])
     ]

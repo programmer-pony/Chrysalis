@@ -1,0 +1,57 @@
+html, body {
+  font-size: 16px;
+  line-height: 1.5;
+  height: 100%;
+  background: #1a1a1a;
+}
+
+img {
+  object-fit:cover;
+}
+
+.white {
+  color: white;
+}
+
+.has-bg-img {
+  background: linear-gradient(rgba(0,0,0,0),#1a1a1a), url('../images/bg.png') center center;
+  background-size: cover;
+}
+
+.footer {
+  background: #1a1a1a;
+  color: #fff;
+  padding: 2rem;
+}
+
+.footer a:link, .footer a:visited {
+  color: #b7ffaa;
+}
+
+.footer a:hover, .footer a:active {
+  color: #37bf1e;
+}
+
+.navbar-link.is-active, .navbar-link:focus, .navbar-link:focus-within, .navbar-link:hover, a.navbar-item.is-active, a.navbar-item:focus, a.navbar-item:focus-within, a.navbar-item:hover {
+  color: #2e823c;
+}
+
+nav.navbar {
+  border-top: 4px solid #2e823c;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.grow {
+  transition: 0.5s ease;
+}
+.grow:hover {
+  -webkit-transform: scale(1.1);
+  -ms-transform: scale(1.1);
+  transform: scale(1.1);
+  transition: 0.5s ease;
+}
